@@ -59,7 +59,6 @@
     .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 
     /* Auth */
-    .auth-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
     .auth-card { background: linear-gradient(135deg, var(--surface) 0%, var(--surface-elevated) 100%); border-radius: 20px; padding: 40px; width: 100%; max-width: 500px; border: 1px solid rgba(99,102,241,0.2); box-shadow: 0 20px 60px rgba(0,0,0,0.5); animation: fadeIn 0.5s ease-out; }
     @keyframes fadeIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
     .auth-title { font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: 700; text-align: center; margin-bottom: 8px; }
@@ -77,8 +76,6 @@
     .code-display { background: var(--surface); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; border: 2px dashed var(--primary); }
     .code-number { font-family: 'Rajdhani', sans-serif; font-size: 2.5rem; font-weight: 700; color: var(--accent); letter-spacing: 8px; }
     .code-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 8px; }
-    .code-input-group { display: flex; gap: 12px; margin-top: 16px; }
-    .code-input-group input { flex: 1; text-align: center; font-size: 1.2rem; letter-spacing: 5px; }
 
     /* Command Center */
     .command-center { grid-column: 1 / -1; background: linear-gradient(135deg, var(--surface) 0%, #1e1e3f 50%, var(--surface-elevated) 100%); position: relative; overflow: hidden; }
@@ -174,7 +171,6 @@
     .chat-message { max-width: 85%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.5; }
     .chat-message.user { align-self: flex-end; background: var(--gradient-primary); border-bottom-right-radius: 4px; }
     .chat-message.bot { align-self: flex-start; background: var(--surface-elevated); border-bottom-left-radius: 4px; white-space: pre-wrap; }
-    .chat-message.info { background: rgba(99,102,241,0.2); border: 1px solid rgba(99,102,241,0.3); }
     
     .quick-actions { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; }
     .quick-action { padding: 8px 14px; background: var(--surface-elevated); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; color: var(--text-secondary); font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease; }
@@ -196,7 +192,6 @@
     .test-option-input { width: 100%; padding: 12px; background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text); margin-top: 8px; }
     .generate-btn { width: 100%; padding: 16px; background: var(--gradient-primary); border: none; border-radius: 12px; color: white; font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; }
     .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--primary-glow); }
-    .generate-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
     .test-output { margin-top: 20px; padding: 20px; background: var(--surface-elevated); border-radius: 12px; display: none; }
     .test-output.active { display: block; }
@@ -206,7 +201,6 @@
     .test-section { margin: 20px 0; }
     .test-section-title { font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--accent); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
     .test-question { margin-bottom: 16px; padding-left: 20px; }
-    .test-question-text { margin-bottom: 8px; }
     .test-marks { color: var(--text-muted); font-size: 0.85rem; }
 
     .fab { position: fixed; bottom: 32px; right: 32px; width: 60px; height: 60px; background: var(--gradient-secondary); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 30px var(--secondary-glow); transition: all 0.3s ease; z-index: 100; }
@@ -215,7 +209,7 @@
 
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
     .modal-overlay.active { display: flex; }
-    .modal { background: linear-gradient(135deg, var(--surface) 0%, var(--surface-elevated) 100%); border-radius: 16px; padding: 28px; width: 100%; max-width: 480px; border: 1px solid rgba(99,102,241,0.2); box-shadow: 0 20px 60px rgba(0,0,0,0.5); animation: modalIn 0.3s ease-out; }
+    .modal { background: linear-gradient(135deg, var(--surface) 0%, var(--surface-elevated) 100%); border-radius: 16px; padding: 28px; width: 100%; max-width: 480px; border: 1px solid rgba(99,102,241,0.2); box-shadow: 0 20px 60px rgba(0,0,0,0.5); animation: modalIn 0.3s ease-out; max-height: 90vh; overflow-y: auto; }
     @keyframes modalIn { 0% { opacity: 0; transform: scale(0.9) translateY(20px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
     .modal-title { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; }
@@ -247,12 +241,6 @@
     .focus-streak .streak-icon { width: 80px; height: 80px; }
     .focus-streak .streak-count { font-family: 'Rajdhani', sans-serif; font-size: 4rem; font-weight: 700; color: var(--warning); }
     .focus-streak .streak-label { color: var(--text-secondary); font-size: 1rem; }
-    .focus-warning { display: none; flex-direction: column; align-items: center; text-align: center; }
-    .focus-warning.active { display: flex; }
-    .focus-warning-icon { width: 100px; height: 100px; margin-bottom: 24px; animation: pulse 0.5s ease-in-out infinite alternate; }
-    @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
-    .focus-warning-text { font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: 700; color: var(--secondary); margin-bottom: 12px; }
-    .focus-warning-sub { color: var(--text-secondary); margin-bottom: 32px; }
     .countdown { font-family: 'Rajdhani', sans-serif; font-size: 5rem; font-weight: 700; color: var(--secondary); }
     .break-title { font-family: 'Rajdhani', sans-serif; font-size: 2.5rem; font-weight: 700; color: var(--success); margin-bottom: 12px; }
     .break-message { color: var(--text-secondary); margin-bottom: 40px; font-size: 1.1rem; }
@@ -309,23 +297,36 @@
 
     .reset-btn { background: transparent; border: 1px solid var(--danger); color: var(--danger); padding: 8px 16px; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.8rem; cursor: pointer; transition: all 0.3s ease; }
     .reset-btn:hover { background: var(--danger); color: white; }
-    .section-title { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-    .section-title svg { width: 24px; height: 24px; fill: var(--primary); }
 
     /* Admin Panel */
-    .admin-panel { background: var(--surface-elevated); border-radius: 12px; padding: 20px; margin-top: 20px; border: 2px solid var(--secondary); }
-    .admin-panel-title { font-family: 'Rajdhani', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--secondary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-    .admin-section { margin-bottom: 20px; }
-    .admin-section-title { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-    .user-edit-card { background: var(--surface); border-radius: 8px; padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
-    .user-edit-info { display: flex; align-items: center; gap: 12px; }
-    .user-avatar { width: 40px; height: 40px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
-    .user-details h4 { font-size: 0.95rem; margin-bottom: 2px; }
-    .user-details p { font-size: 0.8rem; color: var(--text-muted); }
-    .admin-controls { display: flex; gap: 8px; }
+    .admin-modal { max-width: 700px !important; }
+    .admin-section { margin-bottom: 24px; }
+    .admin-section-title { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+    .user-card { background: var(--surface); border-radius: 12px; padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s ease; border: 1px solid transparent; }
+    .user-card:hover { border-color: var(--primary); }
+    .user-info { display: flex; align-items: center; gap: 12px; flex: 1; }
+    .user-avatar { width: 48px; height: 48px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; }
+    .user-details h4 { font-size: 1rem; margin-bottom: 2px; display: flex; align-items: center; gap: 8px; }
+    .user-details p { font-size: 0.85rem; color: var(--text-muted); }
+    .user-role { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
+    .user-role.admin { background: var(--secondary); color: white; }
+    .user-role.student { background: var(--primary); color: white; }
+    .user-controls { display: flex; gap: 8px; }
+    .add-user-btn { width: 100%; padding: 16px; background: var(--surface); border: 2px dashed var(--primary); border-radius: 12px; color: var(--primary); font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .add-user-btn:hover { background: rgba(99,102,241,0.1); border-color: var(--primary); }
+
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .stat-mini { background: var(--surface); border-radius: 8px; padding: 16px; text-align: center; }
+    .stat-mini-value { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; }
+    .stat-mini-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+
+    .admin-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+    .admin-tab { padding: 10px 20px; background: var(--surface); border: 1px solid transparent; border-radius: 8px; color: var(--text-secondary); cursor: pointer; font-weight: 500; transition: all 0.3s ease; }
+    .admin-tab:hover { border-color: var(--primary); }
+    .admin-tab.active { background: var(--primary); color: white; }
 
     @media (max-width: 1024px) { .main-grid { grid-template-columns: 1fr; } .command-content { grid-template-columns: 1fr; gap: 24px; } .subjects-grid { grid-template-columns: repeat(2, 1fr); } .achievements-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 768px) { .app { padding: 16px; } .header { flex-direction: column; gap: 16px; text-align: center; } .header-stats { flex-wrap: wrap; justify-content: center; } .subjects-grid { grid-template-columns: 1fr; } .achievements-grid { grid-template-columns: repeat(2, 1fr); } .stats-grid { grid-template-columns: 1fr; } .timer-ring { width: 160px; height: 160px; } .timer-time { font-size: 2.5rem; } .fab { bottom: 20px; right: 20px; width: 54px; height: 54px; } }
+    @media (max-width: 768px) { .app { padding: 16px; } .header { flex-direction: column; gap: 16px; text-align: center; } .header-stats { flex-wrap: wrap; justify-content: center; } .subjects-grid { grid-template-columns: 1fr; } .achievements-grid { grid-template-columns: repeat(2, 1fr); } .stats-grid { grid-template-columns: 1fr; } .timer-ring { width: 160px; height: 160px; } .timer-time { font-size: 2.5rem; } .fab { bottom: 20px; right: 20px; width: 54px; height: 54px; } .stats-row { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -359,12 +360,6 @@
         <button class="btn btn-danger" onclick="endSession()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h12v12H6z"/></svg> End Session</button>
       </div>
     </div>
-    <div class="focus-warning" id="focusWarning">
-      <svg class="focus-warning-icon" viewBox="0 0 24 24" fill="#ec4899"><path d="M12 2L1 21h22L12 2zm0 3.5L19.5 19h-15L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg>
-      <div class="focus-warning-text">DISTRACTION BLOCKED</div>
-      <div class="focus-warning-sub">Stay focused. Your boards won't wait.</div>
-      <div class="countdown" id="exitCountdown">5</div>
-    </div>
   </div>
 
   <div class="break-overlay" id="breakOverlay">
@@ -374,7 +369,7 @@
     <button class="btn btn-success" style="margin-top: 32px;" onclick="skipBreak()">Skip Break</button>
   </div>
 
-  <!-- Login Modal with Code Verification -->
+  <!-- Login Modal -->
   <div class="modal-overlay" id="loginModal">
     <div class="auth-card">
       <div style="text-align: center; margin-bottom: 24px;">
@@ -383,7 +378,6 @@
         <p class="auth-subtitle">ICSE Boards Study System</p>
       </div>
       
-      <!-- Step 1: Code Verification -->
       <div id="codeStep">
         <div class="code-display">
           <div class="code-label">Your Verification Code</div>
@@ -398,13 +392,10 @@
         <div id="codeError" class="form-error" style="margin-top: 12px;"></div>
       </div>
 
-      <!-- Step 2: User Selection & Password -->
       <div id="userStep" style="display: none;">
         <div class="form-group">
           <label class="form-label">Select User</label>
-          <select class="session-subject-select" id="userSelect" onchange="updateUserFields()">
-            <option value="">-- Select Your Name --</option>
-          </select>
+          <select class="session-subject-select" id="userSelect"></select>
         </div>
         <div class="form-group">
           <label class="form-label">Password</label>
@@ -413,6 +404,125 @@
         <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="handleLogin()">Sign In</button>
         <div id="loginError" class="form-error" style="margin-top: 12px;"></div>
         <button class="btn btn-secondary btn-small" style="width: 100%; margin-top: 12px;" onclick="backToCode()">← Back to Code Entry</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add User Modal -->
+  <div class="modal-overlay" id="addUserModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">➕ Add New User</h3>
+        <button class="modal-close" onclick="closeAddUserModal()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input type="text" id="newUserName" class="form-input" placeholder="e.g., John Doe">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" id="newUserEmail" class="form-input" placeholder="e.g., john@school.edu">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" id="newUserPassword" class="form-input" placeholder="Set a password">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Role</label>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-secondary" id="roleStudent" onclick="setNewUserRole('student')" style="flex: 1;">👤 Student</button>
+          <button class="btn btn-secondary" id="roleAdmin" onclick="setNewUserRole('admin')" style="flex: 1;">👑 Admin</button>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeAddUserModal()">Cancel</button>
+        <button class="btn btn-success" onclick="saveNewUser()">✅ Create User</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit User Modal -->
+  <div class="modal-overlay" id="editUserModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">✏️ Edit User</h3>
+        <button class="modal-close" onclick="closeEditUserModal()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+      </div>
+      <input type="hidden" id="editUserIndex">
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input type="text" id="editUserName" class="form-input">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" id="editUserEmail" class="form-input" readonly style="opacity: 0.6; cursor: not-allowed;">
+      </div>
+      <div class="form-group">
+        <label class="form-label">New Password (leave blank to keep current)</label>
+        <input type="password" id="editUserPassword" class="form-input" placeholder="Enter new password">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Role</label>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-secondary" id="editRoleStudent" onclick="setEditUserRole('student')" style="flex: 1;">👤 Student</button>
+          <button class="btn btn-secondary" id="editRoleAdmin" onclick="setEditUserRole('admin')" style="flex: 1;">👑 Admin</button>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-danger" onclick="deleteUser()">🗑️ Delete User</button>
+        <button class="btn btn-primary" onclick="updateUser()">💾 Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Panel Modal -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal admin-modal">
+      <div class="modal-header">
+        <h3 class="modal-title">⚙️ Admin Panel</h3>
+        <button class="modal-close" onclick="closeAdminModal()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+      </div>
+      
+      <div class="admin-tabs">
+        <button class="admin-tab active" onclick="switchAdminTab('users')">👥 Users</button>
+        <button class="admin-tab" onclick="switchAdminTab('stats')">📊 Stats</button>
+        <button class="admin-tab" onclick="switchAdminTab('settings')">⚡ Settings</button>
+      </div>
+
+      <div id="adminUsersTab">
+        <div class="admin-section-title">👥 User Management</div>
+        <div id="adminUserList"></div>
+        <button class="add-user-btn" onclick="openAddUserModal()">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          Add New User
+        </button>
+      </div>
+
+      <div id="adminStatsTab" style="display: none;">
+        <div class="admin-section-title">📊 System Statistics</div>
+        <div class="stats-row">
+          <div class="stat-mini">
+            <div class="stat-mini-value" style="color: var(--primary);" id="adminTotalUsers">0</div>
+            <div class="stat-mini-label">Total Users</div>
+          </div>
+          <div class="stat-mini">
+            <div class="stat-mini-value" style="color: var(--success);" id="adminTotalXP">0</div>
+            <div class="stat-mini-label">Total XP</div>
+          </div>
+          <div class="stat-mini">
+            <div class="stat-mini-value" style="color: var(--warning);" id="adminTotalSessions">0</div>
+            <div class="stat-mini-label">Sessions</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="adminSettingsTab" style="display: none;">
+        <div class="admin-section-title">⚡ System Settings</div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <button class="btn btn-warning" onclick="exportUserData()">📥 Export All Data</button>
+          <button class="btn btn-secondary" onclick="exportUsersCSV()">📋 Export Users (CSV)</button>
+          <button class="btn btn-danger" onclick="adminResetAll()">💥 Reset All Data</button>
+        </div>
       </div>
     </div>
   </div>
@@ -444,10 +554,6 @@
         <div class="icon-option" data-icon="📖">📖</div>
         <div class="icon-option" data-icon="💻">💻</div>
         <div class="icon-option" data-icon="🎯">🎯</div>
-        <div class="icon-option" data-icon="⭐">⭐</div>
-        <div class="icon-option" data-icon="🔥">🔥</div>
-        <div class="icon-option" data-icon="🚀">🚀</div>
-        <div class="icon-option" data-icon="🏆">🏆</div>
       </div></div>
       <div class="modal-actions">
         <button class="btn btn-secondary" onclick="closeSubjectModal()">Cancel</button>
@@ -456,7 +562,7 @@
     </div>
   </div>
 
-  <!-- Add Chapter Modal -->
+  <!-- Chapter Modal -->
   <div class="modal-overlay" id="chapterModal">
     <div class="modal">
       <div class="modal-header"><h3 class="modal-title">Add New Chapter</h3><button class="modal-close" onclick="closeChapterModal()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></div>
@@ -468,56 +574,6 @@
         <button class="priority-btn low" data-priority="low" onclick="selectPriority('low')">LOW</button>
       </div></div>
       <div class="modal-actions"><button class="btn btn-secondary" onclick="closeChapterModal()">Cancel</button><button class="btn btn-primary" onclick="saveChapter()">Add Chapter</button></div>
-    </div>
-  </div>
-
-  <!-- Edit Subject Modal -->
-  <div class="modal-overlay" id="editSubjectModal">
-    <div class="modal">
-      <div class="modal-header"><h3 class="modal-title">Edit Subject</h3><button class="modal-close" onclick="closeEditSubjectModal()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></div>
-      <input type="hidden" id="editSubjectId">
-      <div class="form-group"><label class="form-label">Subject Name</label><input type="text" id="editSubjectName" class="form-input"></div>
-      <div class="form-group"><label class="form-label">Color</label><div class="color-picker" id="editColorPicker"></div></div>
-      <div class="form-group"><label class="form-label">Icon</label><div class="icon-picker" id="editIconPicker"></div></div>
-      <div class="modal-actions"><button class="btn btn-danger" onclick="deleteSubject()">Delete Subject</button><button class="btn btn-primary" onclick="updateSubject()">Save Changes</button></div>
-    </div>
-  </div>
-
-  <!-- Admin Panel Modal -->
-  <div class="modal-overlay" id="adminModal">
-    <div class="modal" style="max-width: 600px;">
-      <div class="modal-header">
-        <h3 class="modal-title">⚙️ Admin Panel</h3>
-        <button class="modal-close" onclick="closeAdminModal()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
-      </div>
-      
-      <div class="admin-section">
-        <div class="admin-section-title">👥 User Management</div>
-        <div id="adminUserList"></div>
-      </div>
-
-      <div class="admin-section">
-        <div class="admin-section-title">📊 System Stats</div>
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
-          <div class="stat-card" style="padding: 12px;">
-            <div class="stat-value-large" style="color: var(--primary);" id="adminTotalXP">0</div>
-            <div class="stat-label-small">Total XP Earned</div>
-          </div>
-          <div class="stat-card" style="padding: 12px;">
-            <div class="stat-value-large" style="color: var(--success);" id="adminTotalSessions">0</div>
-            <div class="stat-label-small">Sessions Completed</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="admin-section">
-        <div class="admin-section-title">🔧 Reset Options</div>
-        <div style="display: flex; gap: 8px;">
-          <button class="btn btn-danger btn-small" onclick="adminResetUser()">Reset Current User</button>
-          <button class="btn btn-danger btn-small" onclick="adminResetAll()">Reset All Data</button>
-          <button class="btn btn-warning btn-small" onclick="exportUserData()">📥 Export Data</button>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -629,11 +685,6 @@ I'm your personal study assistant for ICSE Class 10 boards.
 📖 <strong>Summarize Chapters</strong> - Quick revision notes
 🎯 <strong>Practice Questions</strong> - ICSE board exam style questions
 
-<strong>For Test Papers, I'll ask you for:</strong>
-1. Topic/Chapter details (if not in my database)
-2. Total marks desired
-3. Your preferred question framework
-
 What would you like to study today?
             </div>
           </div>
@@ -653,46 +704,21 @@ What would you like to study today?
           <div class="test-builder">
             <div class="test-step">
               <div class="test-step-title">📚 Step 1: Topic/Chapter</div>
-              <select class="session-subject-select" id="testSubject" onchange="updateTestChapters()"><option value="">Select Subject</option></select>
-              <input type="text" id="testChapter" class="form-input" placeholder="Or type chapter name (e.g., Quadratic Equations)" style="margin-top: 8px;">
-              <input type="text" id="testTopicDetails" class="form-input" placeholder="Or paste topic content/key points here (for unknown topics)" style="margin-top: 8px;">
+              <select class="session-subject-select" id="testSubject"><option value="">Select Subject</option></select>
+              <input type="text" id="testChapter" class="form-input" placeholder="Or type chapter name" style="margin-top: 8px;">
             </div>
-
             <div class="test-step">
               <div class="test-step-title">📊 Step 2: Total Marks</div>
               <div class="test-options">
-                <div class="test-option" data-marks="10" onclick="selectMarks(this)">10 Marks</div>
                 <div class="test-option" data-marks="20" onclick="selectMarks(this)">20 Marks</div>
                 <div class="test-option selected" data-marks="50" onclick="selectMarks(this)">50 Marks</div>
                 <div class="test-option" data-marks="100" onclick="selectMarks(this)">100 Marks</div>
-                <div class="test-option" data-marks="custom" onclick="selectMarks(this)">Custom</div>
-              </div>
-              <input type="number" id="customMarks" class="test-option-input" placeholder="Enter custom marks (e.g., 75)" style="display: none;">
-            </div>
-
-            <div class="test-step">
-              <div class="test-step-title">🎯 Step 3: Your Framework (Optional)</div>
-              <textarea id="testFramework" class="form-input" rows="3" placeholder="Describe your preferred test format... 
-E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or 'Focus on HOTS questions'"></textarea>
-            </div>
-
-            <div class="test-step">
-              <div class="test-step-title">📝 Step 4: Question Types</div>
-              <div class="test-options">
-                <div class="test-option selected" data-qtype="mcq" onclick="toggleQType(this)">✓ MCQ (1 mark)</div>
-                <div class="test-option selected" data-qtype="short" onclick="toggleQType(this)">✓ Short Answer (2-3 marks)</div>
-                <div class="test-option selected" data-qtype="long" onclick="toggleQType(this)">✓ Long Answer (5+ marks)</div>
-                <div class="test-option" data-qtype="case" onclick="toggleQType(this)">Case-Based</div>
-                <div class="test-option" data-qtype="hots" onclick="toggleQType(this)">HOTS Only</div>
               </div>
             </div>
-
             <button class="generate-btn" onclick="generateTestPaper()">⚡ GENERATE TEST PAPER</button>
-
             <div class="test-output" id="testOutput">
               <div class="test-paper" id="testPaperContent"></div>
-              <button class="btn btn-secondary btn-small" style="margin-top: 16px;" onclick="copyTest()">📋 Copy to Clipboard</button>
-              <button class="btn btn-secondary btn-small" style="margin-top: 16px; margin-left: 8px;" onclick="downloadTest()">📥 Download</button>
+              <button class="btn btn-secondary btn-small" style="margin-top: 16px;" onclick="copyTest()">📋 Copy</button>
             </div>
           </div>
         </div>
@@ -721,52 +747,58 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
   <button class="fab" id="fab" onclick="openSubjectModal()" style="display: none;"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></button>
 
   <script>
-    // ONLY ALLOWED USERS - Admin, Atiksh Mishra, Parth Singh
-    const allowedUsers = [
-      { name: 'Admin', email: 'admin@focusforge.com', password: 'admin123', role: 'admin', code: 'ADMIN01' },
-      { name: 'Atiksh Mishra', email: 'atiksh@focusforge.com', password: 'Atiksh2026', role: 'student', code: 'ATIK01' },
-      { name: 'Parth Singh', email: 'parth@focusforge.com', password: 'ParthSingh2026', role: 'student', code: 'PARTH01' }
+    // Default users (admin always first, non-deletable)
+    const defaultUsers = [
+      { name: 'Admin', email: 'admin@focusforge.com', password: 'admin123', role: 'admin' }
     ];
 
-    // Store generated codes per user
-    let userCodes = {};
+    // Load all users from localStorage
+    function loadAllUsers() {
+      const stored = localStorage.getItem('focusforge-all-users');
+      if (stored) {
+        try {
+          return JSON.parse(stored);
+        } catch(e) {
+          return [...defaultUsers];
+        }
+      }
+      return [...defaultUsers];
+    }
+
+    function saveAllUsers(users) {
+      localStorage.setItem('focusforge-all-users', JSON.stringify(users));
+    }
+
+    // Initialize with default users if none exist
+    if (!localStorage.getItem('focusforge-all-users')) {
+      saveAllUsers([
+        { name: 'Admin', email: 'admin@focusforge.com', password: 'admin123', role: 'admin' },
+        { name: 'Atiksh Mishra', email: 'atiksh@focusforge.com', password: 'Atiksh2026', role: 'student' },
+        { name: 'Parth Singh', email: 'parth@focusforge.com', password: 'ParthSingh2026', role: 'student' }
+      ]);
+    }
 
     const defaultSubjects = {
       mathematics: { name: 'Mathematics', color: '#a855f7', icon: '📐', chapters: [
         { id: 'math-1', name: 'Quadratic Equations', priority: 'high' },
         { id: 'math-2', name: 'Arithmetic Progressions', priority: 'high' },
-        { id: 'math-3', name: 'Trigonometry', priority: 'high' },
-        { id: 'math-4', name: 'Statistics', priority: 'medium' },
-        { id: 'math-5', name: 'Probability', priority: 'medium' },
-        { id: 'math-6', name: 'Circles', priority: 'high' },
-        { id: 'math-7', name: 'Height & Distance', priority: 'high' }
+        { id: 'math-3', name: 'Trigonometry', priority: 'high' }
       ]},
       physics: { name: 'Physics', color: '#22d3ee', icon: '🔬', chapters: [
         { id: 'phy-1', name: 'Electrostatics', priority: 'high' },
-        { id: 'phy-2', name: 'Current Electricity', priority: 'high' },
-        { id: 'phy-3', name: 'Magnetic Effects', priority: 'medium' },
-        { id: 'phy-4', name: 'Light - Reflection', priority: 'high' },
-        { id: 'phy-5', name: 'Human Eye', priority: 'medium' }
+        { id: 'phy-2', name: 'Current Electricity', priority: 'high' }
       ]},
       chemistry: { name: 'Chemistry', color: '#10b981', icon: '🧪', chapters: [
         { id: 'chem-1', name: 'Periodic Table', priority: 'high' },
-        { id: 'chem-2', name: 'Chemical Bonding', priority: 'high' },
-        { id: 'chem-3', name: 'Acid, Bases & Salts', priority: 'high' },
-        { id: 'chem-4', name: 'Organic Chemistry', priority: 'high' },
-        { id: 'chem-5', name: 'Electrolysis', priority: 'high' }
+        { id: 'chem-2', name: 'Chemical Bonding', priority: 'high' }
       ]},
       english: { name: 'English', color: '#6366f1', icon: '📖', chapters: [
         { id: 'eng-1', name: 'Grammar - Tenses', priority: 'high' },
-        { id: 'eng-2', name: 'Active & Passive Voice', priority: 'high' },
-        { id: 'eng-3', name: 'Merchant of Venice', priority: 'high' },
-        { id: 'eng-4', name: 'Julius Caesar', priority: 'high' },
-        { id: 'eng-5', name: 'Essay Writing', priority: 'high' }
+        { id: 'eng-2', name: 'Active & Passive Voice', priority: 'high' }
       ]},
       biology: { name: 'Biology', color: '#22c55e', icon: '🌿', chapters: [
         { id: 'bio-1', name: 'Cell Division & Genetics', priority: 'high' },
-        { id: 'bio-2', name: 'Photosynthesis', priority: 'high' },
-        { id: 'bio-3', name: 'Nervous System', priority: 'high' },
-        { id: 'bio-4', name: 'Heredity & Evolution', priority: 'high' }
+        { id: 'bio-2', name: 'Photosynthesis', priority: 'high' }
       ]}
     };
 
@@ -774,15 +806,9 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
       { id: 'first-session', name: 'First Blood', icon: '🎯' },
       { id: 'streak-3', name: 'On Fire', icon: '🔥' },
       { id: 'streak-7', name: 'Week Warrior', icon: '💪' },
-      { id: 'streak-30', name: 'Unstoppable', icon: '⚡' },
       { id: 'sessions-10', name: 'Marathon', icon: '🏃' },
-      { id: 'sessions-50', name: 'Session Master', icon: '🎖️' },
       { id: 'hours-10', name: 'Time Keeper', icon: '⏰' },
-      { id: 'hours-50', name: 'Dedication', icon: '📚' },
-      { id: 'perfect-day', name: 'Perfect Day', icon: '⭐' },
-      { id: 'all-subjects', name: 'Versatile', icon: '🎨' },
-      { id: 'level-5', name: 'Rising Star', icon: '🌟' },
-      { id: '100percent', name: 'Perfect Score', icon: '💯' }
+      { id: 'perfect-day', name: 'Perfect Day', icon: '⭐' }
     ];
 
     const levelsData = [
@@ -790,14 +816,11 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
       { level: 2, name: 'ENSIGN', xpRequired: 100 },
       { level: 3, name: 'LIEUTENANT', xpRequired: 300 },
       { level: 4, name: 'CAPTAIN', xpRequired: 600 },
-      { level: 5, name: 'MAJOR', xpRequired: 1000 },
-      { level: 6, name: 'COLONEL', xpRequired: 1500 },
-      { level: 7, name: 'COMMANDER', xpRequired: 2200 },
-      { level: 8, name: 'GENERAL', xpRequired: 3000 }
+      { level: 5, name: 'MAJOR', xpRequired: 1000 }
     ];
 
     const colors = ['#6366f1', '#ec4899', '#22d3ee', '#10b981', '#f59e0b', '#a855f7', '#ef4444', '#06b6d4'];
-    const icons = ['📚', '📐', '🧪', '🔬', '🌍', '📖', '💻', '🎯', '⭐', '🔥', '🚀', '🏆'];
+    const icons = ['📚', '📐', '🧪', '🔬', '🌍', '📖', '💻', '🎯'];
 
     let state = {
       user: { name: 'Student', level: 1, xp: 0, streak: { count: 0, lastDate: null } },
@@ -808,8 +831,9 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
     };
 
     let currentUser = null;
-    let selectedColor = '#6366f1', selectedIcon = '📚', selectedPriority = 'high', editingSubjectId = null;
-    let testMarks = 50, selectedQTypes = ['mcq', 'short', 'long'];
+    let selectedColor = '#6366f1', selectedIcon = '📚', selectedPriority = 'high';
+    let newUserRole = 'student', editUserRole = 'student';
+    let testMarks = 50;
 
     function init() {
       createParticles();
@@ -877,13 +901,10 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
     }
 
     function generateNewCode() {
-      // Generate random 6-digit code
       const code = Math.floor(100000 + Math.random() * 900000).toString();
       document.getElementById('displayCode').textContent = code;
-      
-      // Store code for verification (expires in 5 minutes)
       localStorage.setItem('tempCode', code);
-      localStorage.setItem('codeExpiry', Date.now() + 300000); // 5 minutes
+      localStorage.setItem('codeExpiry', Date.now() + 300000);
     }
 
     function verifyCode() {
@@ -891,34 +912,22 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
       const storedCode = localStorage.getItem('tempCode');
       const expiry = parseInt(localStorage.getItem('codeExpiry'));
       
-      if (!enteredCode) {
-        showError('codeError', 'Please enter the 6-digit code');
-        return;
-      }
+      if (!enteredCode) { showError('codeError', 'Please enter the 6-digit code'); return; }
+      if (Date.now() > expiry) { showError('codeError', 'Code expired! Click "Get New Code"'); return; }
+      if (enteredCode !== storedCode) { showError('codeError', 'Invalid code! Please try again'); return; }
       
-      if (Date.now() > expiry) {
-        showError('codeError', 'Code expired! Click "Get New Code"');
-        return;
-      }
-      
-      if (enteredCode !== storedCode) {
-        showError('codeError', 'Invalid code! Please try again');
-        return;
-      }
-      
-      // Code verified, show user selection
       document.getElementById('codeStep').style.display = 'none';
       document.getElementById('userStep').style.display = 'block';
       document.getElementById('codeError').style.display = 'none';
       
-      // Populate user dropdown
+      // Populate user dropdown with all users
+      const allUsers = loadAllUsers();
       const userSelect = document.getElementById('userSelect');
       userSelect.innerHTML = '<option value="">-- Select Your Name --</option>';
-      allowedUsers.forEach(user => {
-        userSelect.innerHTML += `<option value="${user.email}">${user.name}${user.role === 'admin' ? ' (Admin)' : ''}</option>`;
+      allUsers.forEach(user => {
+        userSelect.innerHTML += `<option value="${user.email}">${user.name}${user.role === 'admin' ? ' 👑' : ''}</option>`;
       });
       
-      // Clear any previous errors
       document.getElementById('loginError').style.display = 'none';
     }
 
@@ -926,10 +935,6 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
       document.getElementById('codeStep').style.display = 'block';
       document.getElementById('userStep').style.display = 'none';
       document.getElementById('verificationCode').value = '';
-    }
-
-    function updateUserFields() {
-      // This is just for UI feedback - password is entered in the form
     }
 
     function handleLogin() {
@@ -941,20 +946,12 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
         return;
       }
 
-      // Find user in allowed users
-      const user = allowedUsers.find(u => u.email === email);
+      const allUsers = loadAllUsers();
+      const user = allUsers.find(u => u.email === email);
       
-      if (!user) {
-        showError('loginError', 'User not found. Contact admin.');
-        return;
-      }
+      if (!user) { showError('loginError', 'User not found. Contact admin.'); return; }
+      if (user.password !== password) { showError('loginError', 'Incorrect password!'); return; }
       
-      if (user.password !== password) {
-        showError('loginError', 'Incorrect password!');
-        return;
-      }
-      
-      // Login successful
       currentUser = user;
       localStorage.setItem('focusforge-user', JSON.stringify({ id: user.email, email: user.email, name: user.name, role: user.role }));
       showMainApp();
@@ -980,7 +977,6 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
       document.getElementById('mainApp').style.display = 'block';
       document.getElementById('fab').style.display = 'flex';
       
-      // Show admin button for admin users
       if (user.role === 'admin') {
         document.getElementById('adminBtn').style.display = 'block';
       } else {
@@ -997,87 +993,232 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
     // Admin Functions
     function openAdminModal() {
       renderAdminUserList();
-      document.getElementById('adminTotalXP').textContent = state.user.xp;
-      document.getElementById('adminTotalSessions').textContent = state.stats.sessionsCompleted;
+      updateAdminStats();
       document.getElementById('adminModal').classList.add('active');
+      switchAdminTab('users');
     }
 
     function closeAdminModal() {
       document.getElementById('adminModal').classList.remove('active');
     }
 
+    function switchAdminTab(tab) {
+      document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('adminUsersTab').style.display = tab === 'users' ? 'block' : 'none';
+      document.getElementById('adminStatsTab').style.display = tab === 'stats' ? 'block' : 'none';
+      document.getElementById('adminSettingsTab').style.display = tab === 'settings' ? 'block' : 'none';
+    }
+
+    function updateAdminStats() {
+      const allUsers = loadAllUsers();
+      document.getElementById('adminTotalUsers').textContent = allUsers.length;
+      document.getElementById('adminTotalXP').textContent = state.user.xp;
+      document.getElementById('adminTotalSessions').textContent = state.stats.sessionsCompleted;
+    }
+
     function renderAdminUserList() {
+      const allUsers = loadAllUsers();
       const container = document.getElementById('adminUserList');
-      container.innerHTML = allowedUsers.map(user => `
-        <div class="user-edit-card">
-          <div class="user-edit-info">
-            <div class="user-avatar">${user.name.charAt(0)}</div>
+      
+      container.innerHTML = allUsers.map((user, index) => `
+        <div class="user-card">
+          <div class="user-info">
+            <div class="user-avatar">${user.name.charAt(0).toUpperCase()}</div>
             <div class="user-details">
-              <h4>${user.name}${user.role === 'admin' ? ' 👑' : ''}</h4>
+              <h4>
+                ${user.name}
+                <span class="user-role ${user.role}">${user.role}</span>
+              </h4>
               <p>${user.email}</p>
             </div>
           </div>
-          <div class="admin-controls">
-            <button class="btn btn-secondary btn-small" onclick="adminEditUser('${user.email}')">✏️ Edit</button>
+          <div class="user-controls">
+            <button class="btn btn-secondary btn-small" onclick="openEditUserModal(${index})">✏️ Edit</button>
           </div>
         </div>
       `).join('');
     }
 
-    function adminEditUser(email) {
-      const user = allowedUsers.find(u => u.email === email);
-      if (!user) return;
-      
-      const newPassword = prompt(`Edit password for ${user.name}:\n\nCurrent password: ${user.password}\n\nEnter new password (leave blank to keep current):`);
-      
-      if (newPassword !== null && newPassword.trim() !== '') {
-        user.password = newPassword.trim();
-        alert(`${user.name}'s password updated successfully!`);
-      }
+    function openAddUserModal() {
+      document.getElementById('newUserName').value = '';
+      document.getElementById('newUserEmail').value = '';
+      document.getElementById('newUserPassword').value = '';
+      newUserRole = 'student';
+      document.getElementById('roleStudent').className = 'btn btn-primary';
+      document.getElementById('roleAdmin').className = 'btn btn-secondary';
+      document.getElementById('addUserModal').classList.add('active');
     }
 
-    function adminResetUser() {
-      if (confirm('Reset current user\'s progress? This cannot be undone!')) {
-        state = {
-          user: { name: currentUser.name, level: 1, xp: 0, streak: { count: 0, lastDate: null } },
-          subjects: JSON.parse(JSON.stringify(defaultSubjects)),
-          sessions: [],
-          achievements: {},
-          stats: { totalStudyTime: 0, sessionsCompleted: 0, longestStreak: 0 }
-        };
-        saveState();
-        renderSubjects();
-        renderAchievements();
-        updateUI();
-        updateHeatmap();
-        alert('User progress reset!');
-      }
+    function closeAddUserModal() {
+      document.getElementById('addUserModal').classList.remove('active');
     }
 
-    function adminResetAll() {
-      if (confirm('RESET ALL DATA? This will delete everything including all user data!')) {
-        localStorage.removeItem('focusforge-state');
-        localStorage.removeItem('focusforge-user');
-        location.reload();
+    function setNewUserRole(role) {
+      newUserRole = role;
+      document.getElementById('roleStudent').className = role === 'student' ? 'btn btn-primary' : 'btn btn-secondary';
+      document.getElementById('roleAdmin').className = role === 'admin' ? 'btn btn-primary' : 'btn btn-secondary';
+    }
+
+    function saveNewUser() {
+      const name = document.getElementById('newUserName').value.trim();
+      const email = document.getElementById('newUserEmail').value.trim();
+      const password = document.getElementById('newUserPassword').value;
+      
+      if (!name || !email || !password) {
+        alert('Please fill in all fields!');
+        return;
       }
+      
+      if (password.length < 4) {
+        alert('Password must be at least 4 characters!');
+        return;
+      }
+
+      const allUsers = loadAllUsers();
+      
+      // Check if email already exists
+      if (allUsers.find(u => u.email === email)) {
+        alert('User with this email already exists!');
+        return;
+      }
+
+      allUsers.push({ name, email, password, role: newUserRole });
+      saveAllUsers(allUsers);
+      
+      closeAddUserModal();
+      renderAdminUserList();
+      updateAdminStats();
+      alert(`✅ User "${name}" created successfully!`);
+    }
+
+    function openEditUserModal(index) {
+      const allUsers = loadAllUsers();
+      const user = allUsers[index];
+      
+      document.getElementById('editUserIndex').value = index;
+      document.getElementById('editUserName').value = user.name;
+      document.getElementById('editUserEmail').value = user.email;
+      document.getElementById('editUserPassword').value = '';
+      
+      editUserRole = user.role;
+      document.getElementById('editRoleStudent').className = user.role === 'student' ? 'btn btn-primary' : 'btn btn-secondary';
+      document.getElementById('editRoleAdmin').className = user.role === 'admin' ? 'btn btn-primary' : 'btn btn-secondary';
+      
+      document.getElementById('editUserModal').classList.add('active');
+    }
+
+    function closeEditUserModal() {
+      document.getElementById('editUserModal').classList.remove('active');
+    }
+
+    function setEditUserRole(role) {
+      editUserRole = role;
+      document.getElementById('editRoleStudent').className = role === 'student' ? 'btn btn-primary' : 'btn btn-secondary';
+      document.getElementById('editRoleAdmin').className = role === 'admin' ? 'btn btn-primary' : 'btn btn-secondary';
+    }
+
+    function updateUser() {
+      const index = parseInt(document.getElementById('editUserIndex').value);
+      const name = document.getElementById('editUserName').value.trim();
+      const newPassword = document.getElementById('editUserPassword').value;
+      
+      if (!name) {
+        alert('Please enter a name!');
+        return;
+      }
+
+      const allUsers = loadAllUsers();
+      allUsers[index].name = name;
+      allUsers[index].role = editUserRole;
+      
+      if (newPassword && newPassword.length >= 4) {
+        allUsers[index].password = newPassword;
+      }
+      
+      saveAllUsers(allUsers);
+      closeEditUserModal();
+      renderAdminUserList();
+      
+      // If admin edited themselves, update current user
+      if (currentUser && currentUser.email === allUsers[index].email) {
+        currentUser = allUsers[index];
+        localStorage.setItem('focusforge-user', JSON.stringify({ id: currentUser.email, email: currentUser.email, name: currentUser.name, role: currentUser.role }));
+        document.getElementById('userName').textContent = currentUser.name;
+      }
+      
+      alert('✅ User updated successfully!');
+    }
+
+    function deleteUser() {
+      const index = parseInt(document.getElementById('editUserIndex').value);
+      const allUsers = loadAllUsers();
+      const user = allUsers[index];
+      
+      // Don't allow deleting the admin account
+      if (user.email === 'admin@focusforge.com') {
+        alert('❌ Cannot delete the Admin account!');
+        return;
+      }
+      
+      if (!confirm(`Are you sure you want to delete "${user.name}"? This cannot be undone!`)) {
+        return;
+      }
+      
+      allUsers.splice(index, 1);
+      saveAllUsers(allUsers);
+      
+      closeEditUserModal();
+      renderAdminUserList();
+      updateAdminStats();
+      alert(`🗑️ User "${user.name}" deleted!`);
+    }
+
+    function exportUsersCSV() {
+      const allUsers = loadAllUsers();
+      let csv = 'Name,Email,Password,Role\n';
+      allUsers.forEach(u => {
+        csv += `${u.name},${u.email},${u.password},${u.role}\n`;
+      });
+      
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'focusforge-users.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+      alert('📋 Users exported to CSV!');
     }
 
     function exportUserData() {
       const data = {
         exportDate: new Date().toISOString(),
-        user: currentUser,
+        users: loadAllUsers(),
         state: state
       };
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `focusforge-export-${currentUser.name}.json`;
+      a.download = `focusforge-export-${new Date().toISOString().split('T')[0]}.json`;
       a.click();
       URL.revokeObjectURL(url);
-      alert('Data exported successfully!');
+      alert('📥 Data exported successfully!');
     }
 
+    function adminResetAll() {
+      if (!confirm('💥 RESET ALL DATA?\n\nThis will delete:\n- All users (except admin)\n- All study progress\n- All settings\n\nThis cannot be undone!')) {
+        return;
+      }
+      
+      localStorage.removeItem('focusforge-state');
+      localStorage.removeItem('focusforge-all-users');
+      localStorage.removeItem('focusforge-user');
+      location.reload();
+    }
+
+    // Continue with rest of app...
     function renderSubjects() {
       const grid = document.getElementById('subjectsGrid');
       const subjectsKeys = Object.keys(state.subjects);
@@ -1091,10 +1232,6 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
         const total = subject.chapters.length;
         const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
         return `<div class="subject-card" style="--subject-color: ${subject.color};" onclick="selectSubject('${key}', event)">
-          <div class="subject-actions">
-            <button class="action-btn" onclick="event.stopPropagation(); openEditSubjectModal('${key}')" title="Edit"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button>
-            <button class="action-btn delete" onclick="event.stopPropagation(); deleteSubjectConfirm('${key}')" title="Delete"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
-          </div>
           <div class="subject-icon">${subject.icon}</div>
           <div class="subject-name">${subject.name}</div>
           <div class="subject-progress"><div class="subject-progress-fill" style="width: ${percent}%"></div></div>
@@ -1104,7 +1241,6 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
     }
 
     function selectSubject(subjectId, event) {
-      if (event.target.closest('.action-btn')) return;
       document.querySelectorAll('.subject-card').forEach(card => card.classList.remove('active'));
       event.currentTarget.classList.add('active');
       state.currentSession = { subject: subjectId, duration: 25, type: 'study' };
@@ -1125,10 +1261,9 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
           <div class="chapter-checkbox ${chapter.completed ? 'checked' : ''}" onclick="toggleChapter('${subjectId}', ${index})"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
           <div class="chapter-info">
             <div class="chapter-name ${chapter.completed ? 'completed' : ''}">${chapter.name}</div>
-            <div class="chapter-meta">${chapter.priority === 'high' ? '<span style="color: var(--danger); font-weight: 600;">● HIGH</span>' : ''}${chapter.priority === 'medium' ? '<span style="color: var(--warning); font-weight: 600;">● MEDIUM</span>' : ''}${chapter.priority === 'low' ? '<span style="color: var(--success);">● LOW</span>' : ''}</div>
+            <div class="chapter-meta">${chapter.priority === 'high' ? '<span style="color: var(--danger);">● HIGH</span>' : ''}${chapter.priority === 'medium' ? '<span style="color: var(--warning);">● MEDIUM</span>' : ''}</div>
           </div>
           <div class="chapter-rating" onclick="event.stopPropagation()">${[1,2,3,4,5].map(n => `<svg class="star ${chapter.rating >= n ? 'filled' : ''}" viewBox="0 0 24 24" onclick="rateChapter('${subjectId}', ${index}, ${n})"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>`).join('')}</div>
-          <div class="chapter-actions"><button class="action-btn delete" onclick="event.stopPropagation(); deleteChapter('${subjectId}', ${index})" title="Delete"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></div>
         </div>`).join('')}
         <button class="add-chapter-btn" onclick="openChapterModal('${subjectId}')"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Add Chapter</button></div>`;
     }
@@ -1146,7 +1281,6 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
     }
 
     function rateChapter(subjectId, chapterIndex, rating) { state.subjects[subjectId].chapters[chapterIndex].rating = rating; saveState(); renderChapters(subjectId); }
-    function deleteChapter(subjectId, chapterIndex) { state.subjects[subjectId].chapters.splice(chapterIndex, 1); saveState(); renderSubjects(); renderChapters(subjectId); updateUI(); }
 
     function populateSubjectSelect() {
       const select = document.getElementById('subjectSelect');
@@ -1169,7 +1303,6 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
         }
       });
 
-      // Also update test subject select
       const testSelect = document.getElementById('testSubject');
       testSelect.innerHTML = '<option value="">Select Subject</option>';
       Object.keys(state.subjects).forEach(key => {
@@ -1178,17 +1311,6 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
         option.textContent = state.subjects[key].name;
         testSelect.appendChild(option);
       });
-    }
-
-    function updateTestChapters() {
-      const subjectId = document.getElementById('testSubject').value;
-      if (subjectId && state.subjects[subjectId]) {
-        const chapters = state.subjects[subjectId].chapters;
-        const chapterInput = document.getElementById('testChapter');
-        if (!chapterInput.value) {
-          chapterInput.placeholder = chapters.map(c => c.name).join(', ') || 'Type chapter name';
-        }
-      }
     }
 
     function setDuration(minutes) {
@@ -1203,8 +1325,7 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
       document.querySelectorAll('.type-options .type-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.type === type));
     }
 
-    let timerInterval;
-    let timerInterval2;
+    let timerInterval, timerInterval2;
 
     function startSession() {
       if (!state.currentSession || !state.currentSession.subject) { alert('Please select a subject first!'); return; }
@@ -1313,7 +1434,7 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
     function skipBreak() { clearInterval(timerInterval2); hideBreak(); }
     function hideBreak() { document.getElementById('breakOverlay').classList.remove('active'); }
 
-    function getStreakMultiplier() { const streak = state.user.streak.count; if (streak >= 30) return 2.0; if (streak >= 14) return 1.75; if (streak >= 7) return 1.5; if (streak >= 3) return 1.25; return 1; }
+    function getStreakMultiplier() { const streak = state.user.streak.count; if (streak >= 7) return 1.5; if (streak >= 3) return 1.25; return 1; }
     function updateLevel() { for (let i = levelsData.length - 1; i >= 0; i--) { if (state.user.xp >= levelsData[i].xpRequired) { state.user.level = levelsData[i].level; break; } } }
 
     function showXPAnimation(amount) {
@@ -1350,27 +1471,19 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
       }
     }
 
-    function hideFocusMode() { document.getElementById('focusOverlay').classList.remove('active'); document.getElementById('focusWarning').classList.remove('active'); document.body.style.overflow = ''; }
+    function hideFocusMode() { document.getElementById('focusOverlay').classList.remove('active'); document.body.style.overflow = ''; }
 
     function checkAchievements() {
-      const newAchievements = [];
-      if (state.stats.sessionsCompleted >= 1 && !state.achievements['first-session']) { state.achievements['first-session'] = true; newAchievements.push('First Blood'); }
-      if (state.user.streak.count >= 3 && !state.achievements['streak-3']) { state.achievements['streak-3'] = true; newAchievements.push('On Fire'); }
-      if (state.user.streak.count >= 7 && !state.achievements['streak-7']) { state.achievements['streak-7'] = true; newAchievements.push('Week Warrior'); }
-      if (state.user.streak.count >= 30 && !state.achievements['streak-30']) { state.achievements['streak-30'] = true; newAchievements.push('Unstoppable'); }
-      if (state.stats.sessionsCompleted >= 10 && !state.achievements['sessions-10']) { state.achievements['sessions-10'] = true; newAchievements.push('Marathon'); }
-      if (state.stats.sessionsCompleted >= 50 && !state.achievements['sessions-50']) { state.achievements['sessions-50'] = true; newAchievements.push('Session Master'); }
-      if (state.stats.totalStudyTime >= 600 && !state.achievements['hours-10']) { state.achievements['hours-10'] = true; newAchievements.push('Time Keeper'); }
-      if (state.stats.totalStudyTime >= 3000 && !state.achievements['hours-50']) { state.achievements['hours-50'] = true; newAchievements.push('Dedication'); }
+      if (state.stats.sessionsCompleted >= 1 && !state.achievements['first-session']) { state.achievements['first-session'] = true; }
+      if (state.user.streak.count >= 3 && !state.achievements['streak-3']) { state.achievements['streak-3'] = true; }
+      if (state.user.streak.count >= 7 && !state.achievements['streak-7']) { state.achievements['streak-7'] = true; }
+      if (state.stats.sessionsCompleted >= 10 && !state.achievements['sessions-10']) { state.achievements['sessions-10'] = true; }
+      if (state.stats.totalStudyTime >= 600 && !state.achievements['hours-10']) { state.achievements['hours-10'] = true; }
       const today = new Date().toDateString();
       const todaySessions = state.sessions.filter(s => new Date(s.date).toDateString() === today).length;
-      if (todaySessions >= 5 && !state.achievements['perfect-day']) { state.achievements['perfect-day'] = true; newAchievements.push('Perfect Day'); }
-      let totalChapters = 0, completedChapters = 0;
-      Object.values(state.subjects).forEach(subject => { subject.chapters.forEach(chapter => { totalChapters++; if (chapter.completed) completedChapters++; }); });
-      if (completedChapters >= totalChapters && totalChapters > 0 && !state.achievements['100percent']) { state.achievements['100percent'] = true; newAchievements.push('Perfect Score'); }
+      if (todaySessions >= 5 && !state.achievements['perfect-day']) { state.achievements['perfect-day'] = true; }
       saveState();
       renderAchievements();
-      if (newAchievements.length > 0) { newAchievements.forEach((name, index) => { setTimeout(() => { const notification = document.createElement('div'); notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 16px 24px; border-radius: 12px; font-family: Rajdhani, sans-serif; font-weight: 700; font-size: 1.1rem; z-index: 2000; animation: fadeIn 0.5s ease-out;'; notification.textContent = `🏆 Achievement: ${name}`; document.body.appendChild(notification); setTimeout(() => notification.remove(), 3500); }, index * 1200); }); }
     }
 
     function renderAchievements() { const grid = document.getElementById('achievementsGrid'); grid.innerHTML = achievementsData.map(a => `<div class="badge ${state.achievements[a.id] ? 'unlocked' : ''}"><div class="badge-icon">${a.icon}</div><div class="badge-name">${a.name}</div></div>`).join(''); }
@@ -1421,9 +1534,7 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
       }
     }
 
-    // Modal Functions
     function openSubjectModal() {
-      editingSubjectId = null;
       document.getElementById('subjectName').value = '';
       selectedColor = '#6366f1';
       selectedIcon = '📚';
@@ -1439,63 +1550,12 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
     function saveSubject() {
       const name = document.getElementById('subjectName').value.trim();
       if (!name) { alert('Please enter a subject name!'); return; }
-      if (editingSubjectId) {
-        state.subjects[editingSubjectId].name = name;
-        state.subjects[editingSubjectId].color = selectedColor;
-        state.subjects[editingSubjectId].icon = selectedIcon;
-      } else {
-        const id = 'custom-' + Date.now();
-        state.subjects[id] = { name, color: selectedColor, icon: selectedIcon, chapters: [] };
-      }
+      const id = 'custom-' + Date.now();
+      state.subjects[id] = { name, color: selectedColor, icon: selectedIcon, chapters: [] };
       saveState();
       closeSubjectModal();
       renderSubjects();
       populateSubjectSelect();
-      updateUI();
-    }
-
-    function openEditSubjectModal(subjectId) {
-      editingSubjectId = subjectId;
-      const subject = state.subjects[subjectId];
-      document.getElementById('editSubjectId').value = subjectId;
-      document.getElementById('editSubjectName').value = subject.name;
-      const colorPicker = document.getElementById('editColorPicker');
-      colorPicker.innerHTML = colors.map(c => `<div class="color-option ${c === subject.color ? 'selected' : ''}" data-color="${c}" style="background: ${c};" onclick="selectEditColor('${c}')"></div>`).join('');
-      const iconPicker = document.getElementById('editIconPicker');
-      iconPicker.innerHTML = icons.map(i => `<div class="icon-option ${i === subject.icon ? 'selected' : ''}" data-icon="${i}" onclick="selectEditIcon('${i}')">${i}</div>`).join('');
-      document.getElementById('editSubjectModal').classList.add('active');
-    }
-
-    function closeEditSubjectModal() { document.getElementById('editSubjectModal').classList.remove('active'); }
-    function selectEditColor(color) { document.querySelectorAll('#editColorPicker .color-option').forEach(opt => opt.classList.toggle('selected', opt.dataset.color === color)); }
-    function selectEditIcon(icon) { document.querySelectorAll('#editIconPicker .icon-option').forEach(opt => opt.classList.toggle('selected', opt.dataset.icon === icon)); }
-
-    function updateSubject() {
-      const subjectId = document.getElementById('editSubjectId').value;
-      const name = document.getElementById('editSubjectName').value.trim();
-      if (!name) { alert('Please enter a subject name!'); return; }
-      const selectedColorEl = document.querySelector('#editColorPicker .color-option.selected');
-      const selectedIconEl = document.querySelector('#editIconPicker .icon-option.selected');
-      state.subjects[subjectId].name = name;
-      state.subjects[subjectId].color = selectedColorEl ? selectedColorEl.dataset.color : state.subjects[subjectId].color;
-      state.subjects[subjectId].icon = selectedIconEl ? selectedIconEl.dataset.icon : state.subjects[subjectId].icon;
-      saveState();
-      closeEditSubjectModal();
-      renderSubjects();
-      populateSubjectSelect();
-      updateUI();
-    }
-
-    function deleteSubjectConfirm(subjectId) { if (confirm('Delete this subject and all its chapters? This cannot be undone!')) { deleteSubject(subjectId); } }
-
-    function deleteSubject(subjectId) {
-      delete state.subjects[subjectId];
-      saveState();
-      closeEditSubjectModal();
-      renderSubjects();
-      populateSubjectSelect();
-      document.getElementById('chaptersPanel').innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg><div class="empty-state-title">No Mission Selected</div><div>Pick a subject to see its chapters</div></div>';
-      document.getElementById('chapterSubjectName').textContent = 'Select a subject';
       updateUI();
     }
 
@@ -1522,7 +1582,6 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
       updateUI();
     }
 
-    // Chatbot Functions
     function switchTab(tab) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       event.target.classList.add('active');
@@ -1557,160 +1616,52 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
 
     function generateAIResponse(message) {
       const msg = message.toLowerCase();
-
-      if (msg.includes('test') || msg.includes('paper') || msg.includes('generate')) {
-        return `📝 <strong>Test Paper Generator</strong>\n\nI can create custom test papers for you! To generate an accurate test, I'll need some information:\n\n<strong>1. Topic/Chapter:</strong>\n• Select from your subjects above, OR\n• Type the chapter name if not listed, OR\n• Paste the topic content/key points you want tested\n\n<strong>2. How many marks?</strong>\n• Quick quiz: 10-20 marks\n• Test: 50 marks\n• Full exam: 100 marks\n\n<strong>3. Any specific framework?</strong>\n• Describe your preferred format (e.g., "3 long questions", "focus on case-based", "ICSE board format")\n\nUse the <strong>📝 Test Builder</strong> tab above for quick test generation!`;
+      if (msg.includes('test') || msg.includes('paper')) {
+        return `📝 <strong>Test Paper Generator</strong>\n\nUse the <strong>📝 Test Builder</strong> tab above! Select a subject, choose marks (20/50/100), and generate a custom test paper with marking scheme.`;
       }
-
-      const knownTopics = {
-        'quadratic': '📐 <strong>Quadratic Equations</strong>\n\n• Standard: ax² + bx + c = 0\n• Solve by: Factorization, Formula, Completing Square\n• Discriminant D = b² - 4ac\n• x = (-b ± √D) / 2a\n\n<em>Need a test on this? Click "📝 Test Builder" tab!</em>',
-        'trigonometry': '📐 <strong>Trigonometry</strong>\n\n• sin θ = Opposite/Hypotenuse\n• cos θ = Adjacent/Hypotenuse\n• tan θ = Opposite/Adjacent\n• Identities: sin²θ + cos²θ = 1\n\n<em>Want a test? Use the Test Builder!</em>',
-        'electrostatics': '⚡ <strong>Electrostatics</strong>\n\n• Like charges repel, unlike attract\n• Coulomb\'s Law: F = Kq₁q₂/r²\n• Electric field: E = F/q\n\n<em>Generate a test from the Test Builder tab!</em>',
-        'organic': '🧪 <strong>Organic Chemistry</strong>\n\n• Alkanes, Alkenes, Alkynes\n• Homologous series\n• IUPAC nomenclature\n• Functional groups\n\n<em>Need practice questions? I can help!</em>'
-      };
-
-      for (const [key, response] of Object.entries(knownTopics)) {
-        if (msg.includes(key)) return response;
+      if (msg.includes('quadratic')) {
+        return `📐 <strong>Quadratic Equations</strong>\n\n• Standard: ax² + bx + c = 0\n• Discriminant D = b² - 4ac\n• x = (-b ± √D) / 2a\n\n<em>Need a test? Use the Test Builder tab!</em>`;
       }
-
-      if (msg.includes('summarize') || msg.includes('revision') || msg.includes('notes')) {
-        return `📖 <strong>Summary Generator</strong>\n\nI can create chapter summaries for you! Please specify:\n\n<strong>1. Subject & Chapter:</strong> e.g., Mathematics - Quadratic Equations\n\n<strong>2. Type of summary:</strong>\n• Quick Revision (bullet points)\n• Detailed Notes (with examples)\n• Flash Cards (Q&A format)`;
+      if (msg.includes('trigonometry') || msg.includes('trig')) {
+        return `📐 <strong>Trigonometry</strong>\n\n• sin θ = Opposite/Hypotenuse\n• cos θ = Adjacent/Hypotenuse\n• tan θ = Opposite/Adjacent\n• sin²θ + cos²θ = 1`;
       }
-
-      return `🎓 <strong>ICSE Boards Study Assistant</strong>\n\nI can help you with:\n\n📝 <strong>Test Papers</strong> - "Generate test for [topic]"\n📖 <strong>Summaries</strong> - "Summarize [chapter]"\n💡 <strong>Explanations</strong> - "Explain [concept]"\n🎯 <strong>Practice</strong> - "Give me practice questions"\n\nWhat would you like to learn?`;
+      return `🎓 <strong>ICSE Boards Study Assistant</strong>\n\nI can help with:\n📝 Test Papers\n📖 Summaries\n💡 Explanations\n🎯 Practice Questions\n\nWhat would you like to learn?`;
     }
 
-    // Test Builder Functions
     function selectMarks(el) {
-      document.querySelectorAll('.test-options .test-option').forEach(opt => opt.classList.remove('selected'));
+      document.querySelectorAll('.test-step .test-option').forEach(opt => opt.classList.remove('selected'));
       el.classList.add('selected');
-      if (el.dataset.marks === 'custom') {
-        document.getElementById('customMarks').style.display = 'block';
-        testMarks = 0;
-      } else {
-        document.getElementById('customMarks').style.display = 'none';
-        testMarks = parseInt(el.dataset.marks);
-      }
-    }
-
-    document.getElementById('customMarks')?.addEventListener('input', (e) => { testMarks = parseInt(e.target.value) || 0; });
-
-    function toggleQType(el) {
-      el.classList.toggle('selected');
-      const qtype = el.dataset.qtype;
-      if (el.classList.contains('selected')) {
-        if (!selectedQTypes.includes(qtype)) selectedQTypes.push(qtype);
-      } else {
-        selectedQTypes = selectedQTypes.filter(t => t !== qtype);
-      }
-      if (el.classList.contains('selected') && !el.textContent.includes('✓')) {
-        el.textContent = '✓ ' + el.textContent.replace('✓ ', '');
-      } else if (!el.classList.contains('selected') && el.textContent.includes('✓')) {
-        el.textContent = el.textContent.replace('✓ ', '');
-      }
+      testMarks = parseInt(el.dataset.marks);
     }
 
     function generateTestPaper() {
       const subject = document.getElementById('testSubject').value;
       const chapter = document.getElementById('testChapter').value.trim();
-      const topicDetails = document.getElementById('testTopicDetails').value.trim();
-      const framework = document.getElementById('testFramework').value.trim();
-
-      const subjectName = subject ? state.subjects[subject]?.name : 'Custom';
-      const finalMarks = testMarks || 50;
-      const qTypes = selectedQTypes.length > 0 ? selectedQTypes : ['mcq', 'short', 'long'];
-
+      const subjectName = subject ? state.subjects[subject]?.name : 'General';
+      
       let testContent = `<div class="test-paper-header">
         <div class="test-paper-title">📝 ICSE CLASS 10 - ${subjectName.toUpperCase()}</div>
         <div>Chapter: ${chapter || 'Custom Topic'}</div>
-        <div>Time: ${finalMarks} minutes | Total Marks: ${finalMarks}</div>
-        ${framework ? '<div style="margin-top: 8px; font-size: 0.9rem; color: var(--accent);"><strong>Your Framework:</strong> ' + framework + '</div>' : ''}
+        <div>Total Marks: ${testMarks}</div>
       </div>`;
-
-      let questionNum = 1;
-
-      if (qTypes.includes('mcq')) {
-        testContent += `<div class="test-section">
-          <div class="test-section-title">SECTION A - Multiple Choice Questions (1 mark each)</div>`;
-        const mcqCount = Math.min(5, Math.floor(finalMarks / 4));
-        for (let i = 0; i < mcqCount; i++) {
-          testContent += `<div class="test-question">
-            <div class="test-question-text">${questionNum}. [Sample MCQ for ${chapter || 'topic'}]</div>
-            <div style="color: var(--text-muted); font-size: 0.9rem;">
-              a) Option A &nbsp; b) Option B &nbsp; c) Option C &nbsp; d) Option D
-            </div>
-          </div>`;
-          questionNum++;
-        }
-        testContent += `</div>`;
+      
+      testContent += `<div class="test-section"><div class="test-section-title">SECTION A - Short Answer (2 marks each)</div>`;
+      for (let i = 1; i <= Math.min(5, testMarks/5); i++) {
+        testContent += `<div class="test-question">${i}. [Question about ${chapter || 'topic'}]</div>`;
       }
-
-      if (qTypes.includes('short')) {
-        testContent += `<div class="test-section">
-          <div class="test-section-title">SECTION B - Short Answer Questions (2-3 marks each)</div>`;
-        const shortCount = Math.min(4, Math.floor(finalMarks / 8));
-        for (let i = 0; i < shortCount; i++) {
-          testContent += `<div class="test-question">
-            <div class="test-question-text">${questionNum}. Explain the concept of [key topic] with an example.</div>
-            <div class="test-marks">3 marks</div>
-          </div>`;
-          questionNum++;
-        }
-        testContent += `</div>`;
+      testContent += `</div>`;
+      
+      testContent += `<div class="test-section"><div class="test-section-title">SECTION B - Long Answer (5 marks each)</div>`;
+      for (let i = 1; i <= Math.min(3, testMarks/15); i++) {
+        testContent += `<div class="test-question">${i}. [Application question on ${chapter || 'main topic'}]<div class="test-marks">5 marks</div></div>`;
       }
-
-      if (qTypes.includes('long')) {
-        testContent += `<div class="test-section">
-          <div class="test-section-title">SECTION C - Long Answer Questions (5 marks each)</div>`;
-        const longCount = Math.min(3, Math.floor(finalMarks / 15));
-        for (let i = 0; i < longCount; i++) {
-          testContent += `<div class="test-question">
-            <div class="test-question-text">${questionNum}. [Application-based question on ${chapter || 'main topic'}]</div>
-            <div class="test-marks">5 marks</div>
-          </div>`;
-          questionNum++;
-        }
-        testContent += `</div>`;
-      }
-
-      if (qTypes.includes('case')) {
-        testContent += `<div class="test-section">
-          <div class="test-section-title">SECTION D - Case-Based Questions</div>
-          <div class="test-question">
-            <div class="test-question-text">${questionNum}. Read the following case study and answer the questions:</div>
-            <div style="background: var(--surface); padding: 12px; border-radius: 8px; margin: 8px 0;">
-              [Case study related to ${chapter || 'the topic'}]
-            </div>
-            <div>a) Question 1 (2 marks)<br>b) Question 2 (3 marks)<br>c) Question 3 (5 marks)</div>
-          </div>
-        </div>`;
-      }
-
-      testContent += `<div class="test-section" style="background: rgba(16,185,129,0.1); padding: 16px; border-radius: 8px; margin-top: 20px;">
+      testContent += `</div>`;
+      
+      testContent += `<div class="test-section" style="background: rgba(16,185,129,0.1); padding: 16px; border-radius: 8px;">
         <div class="test-section-title" style="color: var(--success);">📋 MARKING SCHEME</div>
-        <div style="font-size: 0.9rem; line-height: 1.8;">
-          • Section A: 1 mark per correct answer<br>
-          • Section B: Step-by-step solution - 2-3 marks<br>
-          • Section C: Detailed explanation with diagram - 5 marks<br>
-          • Section D: Justify answers with reference - marks as shown<br><br>
-          <em>Total: ${finalMarks} marks | Passing: 40% (${Math.round(finalMarks * 0.4)} marks)</em>
-        </div>
+        <em>Total: ${testMarks} marks | Passing: 40%</em>
       </div>`;
-
-      if (framework) {
-        testContent += `<div style="margin-top: 16px; padding: 12px; background: rgba(99,102,241,0.1); border-radius: 8px; border: 1px solid rgba(99,102,241,0.3);">
-          <strong style="color: var(--primary);">📌 Your Framework Applied:</strong><br>
-          <em>${framework}</em>
-        </div>`;
-      }
-
-      if (topicDetails) {
-        testContent += `<div style="margin-top: 16px; padding: 12px; background: var(--surface-elevated); border-radius: 8px;">
-          <strong style="color: var(--accent);">📚 Topic Content Provided:</strong>
-          <div style="font-size: 0.85rem; margin-top: 8px; white-space: pre-wrap;">${topicDetails.substring(0, 500)}${topicDetails.length > 500 ? '...' : ''}</div>
-        </div>`;
-      }
-
+      
       document.getElementById('testPaperContent').innerHTML = testContent;
       document.getElementById('testOutput').classList.add('active');
     }
@@ -1719,17 +1670,6 @@ E.g., '3 long questions of 10 marks each' or 'Include 5 case-based questions' or
       const text = document.getElementById('testPaperContent').innerText;
       navigator.clipboard.writeText(text);
       alert('Test copied to clipboard!');
-    }
-
-    function downloadTest() {
-      const content = document.getElementById('testPaperContent').innerText;
-      const blob = new Blob([content], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'test-paper.txt';
-      a.click();
-      URL.revokeObjectURL(url);
     }
 
     function resetAll() { if (confirm('Reset ALL progress? This cannot be undone!')) { localStorage.removeItem('focusforge-state'); localStorage.removeItem('focusforge-user'); location.reload(); } }
