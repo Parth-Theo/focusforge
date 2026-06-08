@@ -42,8 +42,7 @@ git push --force origin main
 
 After cleanup, verify no secrets remain:
 ```bash
-git log --all --source --remotes --full-history -S "admin123" -- .
-git log --all -p | grep -i "password" | head -20
+git log --all -p | grep -iE "password|admin123" | head -20
 ```
 
 ## Prevention

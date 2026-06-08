@@ -8,1673 +8,553 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    :root {
-      --bg: #0f0f23; --surface: #1a1a2e; --surface-elevated: #252545; --surface-hover: #2f2f5a;
-      --primary: #6366f1; --primary-glow: rgba(99,102,241,0.4); --secondary: #ec4899; --secondary-glow: rgba(236,72,153,0.4);
-      --accent: #22d3ee; --accent-glow: rgba(34,211,238,0.4); --success: #10b981; --success-glow: rgba(16,185,129,0.4);
-      --warning: #f59e0b; --warning-glow: rgba(245,158,11,0.4); --danger: #ef4444;
-      --text: #f8fafc; --text-secondary: #94a3b8; --text-muted: #64748b;
-      --gradient-primary: linear-gradient(135deg, #6366f1, #8b5cf6);
-      --gradient-secondary: linear-gradient(135deg, #ec4899, #f43f5e);
-      --gradient-accent: linear-gradient(135deg, #22d3ee, #06b6d4);
-      --gradient-success: linear-gradient(135deg, #10b981, #059669);
-    }
-
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
-
-    .bg-animation { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0; overflow: hidden; background: linear-gradient(135deg, #0f0f23 0%, #1a1035 50%, #0f0f23 100%); }
-    .particle { position: absolute; width: 4px; height: 4px; background: var(--primary); border-radius: 50%; animation: float 20s infinite; opacity: 0.3; }
-    @keyframes float { 0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.3; } 90% { opacity: 0.3; } 100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; } }
-    .grid-pattern { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(90deg, rgba(99,102,241,0.03) 1px, transparent 1px), linear-gradient(rgba(99,102,241,0.03) 1px, transparent 1px); background-size: 60px 60px; z-index: 1; pointer-events: none; }
-    .app { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 24px; }
-
-    .btn { padding: 12px 24px; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; }
-    .btn-primary { background: var(--gradient-primary); color: white; box-shadow: 0 4px 15px var(--primary-glow); }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 25px var(--primary-glow); }
-    .btn-secondary { background: var(--surface-elevated); color: var(--text); border: 1px solid rgba(255,255,255,0.1); }
-    .btn-secondary:hover { background: var(--surface-hover); border-color: var(--primary); }
-    .btn-danger { background: var(--gradient-secondary); color: white; }
-    .btn-success { background: var(--gradient-success); color: white; }
-    .btn-warning { background: var(--gradient-accent); color: white; }
-    .btn-small { padding: 8px 14px; font-size: 0.85rem; }
-
-    .card { background: linear-gradient(135deg, var(--surface) 0%, var(--surface-elevated) 100%); border-radius: 16px; padding: 24px; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 4px 30px rgba(0,0,0,0.2); transition: all 0.3s ease; }
-    .card:hover { border-color: rgba(99,102,241,0.3); box-shadow: 0 8px 40px rgba(0,0,0,0.3); }
-
-    .header { display: flex; justify-content: space-between; align-items: center; padding: 20px 28px; background: linear-gradient(135deg, var(--surface) 0%, var(--surface-elevated) 100%); border-radius: 16px; margin-bottom: 28px; border: 1px solid rgba(99,102,241,0.2); box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
-    .logo { display: flex; align-items: center; gap: 14px; }
-    .logo-icon { width: 52px; height: 52px; background: var(--gradient-primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px var(--primary-glow); animation: pulse-glow 3s ease-in-out infinite; }
-    @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px var(--primary-glow); } 50% { box-shadow: 0 0 40px var(--primary-glow); } }
-    .logo-icon svg { width: 30px; height: 30px; fill: white; }
-    .logo-text { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.8rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .header-stats { display: flex; gap: 20px; align-items: center; }
-    .stat-item { display: flex; align-items: center; gap: 10px; padding: 10px 18px; background: var(--surface-elevated); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; }
-    .stat-item:hover { transform: translateY(-2px); border-color: var(--primary); }
-    .level-badge { background: var(--gradient-primary); padding: 8px 16px; border-radius: 8px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; box-shadow: 0 4px 15px var(--primary-glow); }
-    .admin-badge { background: var(--gradient-secondary); padding: 8px 16px; border-radius: 8px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.9rem; }
-
-    .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-
-    /* Auth */
-    .auth-card { background: linear-gradient(135deg, var(--surface) 0%, var(--surface-elevated) 100%); border-radius: 20px; padding: 40px; width: 100%; max-width: 500px; border: 1px solid rgba(99,102,241,0.2); box-shadow: 0 20px 60px rgba(0,0,0,0.5); animation: fadeIn 0.5s ease-out; }
-    @keyframes fadeIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
-    .auth-title { font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: 700; text-align: center; margin-bottom: 8px; }
-    .auth-subtitle { color: var(--text-secondary); text-align: center; margin-bottom: 32px; }
-    .form-group { margin-bottom: 20px; }
-    .form-label { display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px; font-weight: 500; }
-    .form-input { width: 100%; padding: 14px 16px; background: var(--bg); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.95rem; transition: all 0.3s ease; }
-    .form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
-    .form-error { background: rgba(239,68,68,0.2); border: 1px solid rgba(239,68,68,0.5); border-radius: 8px; padding: 12px; margin-bottom: 20px; color: var(--danger); font-size: 0.9rem; display: none; }
-    .auth-switch { text-align: center; margin-top: 24px; color: var(--text-secondary); }
-    .auth-switch a { color: var(--primary); text-decoration: none; font-weight: 600; }
-    .auth-switch a:hover { text-decoration: underline; }
-
-    /* Code Verification */
-    .code-display { background: var(--surface); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; border: 2px dashed var(--primary); }
-    .code-number { font-family: 'Rajdhani', sans-serif; font-size: 2.5rem; font-weight: 700; color: var(--accent); letter-spacing: 8px; }
-    .code-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 8px; }
-
-    /* Command Center */
-    .command-center { grid-column: 1 / -1; background: linear-gradient(135deg, var(--surface) 0%, #1e1e3f 50%, var(--surface-elevated) 100%); position: relative; overflow: hidden; }
-    .command-center::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, var(--primary-glow) 0%, transparent 50%); animation: rotate 30s linear infinite; opacity: 0.1; }
-    @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .command-content { position: relative; display: grid; grid-template-columns: 200px 1fr 220px; gap: 32px; align-items: center; }
-
-    .streak-display { text-align: center; padding: 24px; background: rgba(245,158,11,0.1); border-radius: 12px; border: 1px solid rgba(245,158,11,0.3); }
-    .streak-icon { width: 70px; height: 70px; margin: 0 auto 12px; animation: flame 1.5s ease-in-out infinite alternate; }
-    @keyframes flame { 0% { transform: scale(1) rotate(-5deg); filter: brightness(1); } 100% { transform: scale(1.15) rotate(5deg); filter: brightness(1.4) drop-shadow(0 0 20px #f59e0b); } }
-    .streak-count { font-family: 'Rajdhani', sans-serif; font-size: 3.5rem; font-weight: 700; color: var(--warning); line-height: 1; text-shadow: 0 0 30px var(--warning-glow); }
-    .streak-label { font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px; }
-    .streak-multiplier { display: inline-block; margin-top: 10px; padding: 6px 14px; background: var(--gradient-success); color: white; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
-
-    .timer-section { text-align: center; }
-    .timer-ring { width: 200px; height: 200px; margin: 0 auto 20px; position: relative; }
-    .timer-ring svg { transform: rotate(-90deg); width: 100%; height: 100%; }
-    .timer-ring-bg { fill: none; stroke: var(--surface-elevated); stroke-width: 10; }
-    .timer-ring-progress { fill: none; stroke: url(#timerGradient); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 565; stroke-dashoffset: 565; transition: stroke-dashoffset 1s linear; filter: drop-shadow(0 0 15px var(--primary)); }
-    .timer-ring-progress.break { stroke: var(--success); filter: drop-shadow(0 0 15px var(--success)); }
-    .timer-ring-progress.paused { stroke: var(--warning); filter: drop-shadow(0 0 15px var(--warning)); }
-    .timer-display { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
-    .timer-time { font-family: 'Rajdhani', sans-serif; font-size: 3rem; font-weight: 700; color: var(--text); line-height: 1; }
-    .timer-subject { font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px; }
-    .timer-status { font-size: 0.75rem; color: var(--primary); text-transform: uppercase; letter-spacing: 3px; margin-top: 8px; font-weight: 600; }
-    .timer-controls { display: flex; gap: 12px; justify-content: center; margin-top: 16px; }
-
-    .progress-section { text-align: center; }
-    .progress-ring-container { position: relative; width: 150px; height: 150px; margin: 0 auto 14px; }
-    .progress-ring-container svg { transform: rotate(-90deg); width: 100%; height: 100%; }
-    .progress-ring-bg { fill: none; stroke: var(--surface-elevated); stroke-width: 12; }
-    .progress-ring-fill { fill: none; stroke: url(#progressGradient); stroke-width: 12; stroke-linecap: round; stroke-dasharray: 408; stroke-dashoffset: 408; transition: stroke-dashoffset 1s ease-out; filter: drop-shadow(0 0 12px var(--accent)); }
-    .progress-percent { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: 700; color: var(--accent); }
-    .progress-label { font-size: 0.9rem; color: var(--text-secondary); }
-    .level-progress { margin-top: 16px; padding: 16px; background: var(--surface-elevated); border-radius: 8px; }
-    .level-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.85rem; }
-    .level-current { color: var(--primary); font-weight: 600; }
-    .level-next { color: var(--text-muted); }
-    .level-bar { height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
-    .level-fill { height: 100%; background: var(--gradient-accent); border-radius: 4px; transition: width 0.5s ease; }
-
-    .session-setup { background: var(--surface-elevated); border-radius: 12px; padding: 20px; }
-    .session-subject-select { width: 100%; padding: 12px 16px; background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text); font-family: 'Inter', sans-serif; margin-bottom: 12px; cursor: pointer; }
-    .session-subject-select:focus { outline: none; border-color: var(--primary); }
-    .duration-options { display: flex; gap: 8px; margin-bottom: 12px; }
-    .duration-btn { flex: 1; padding: 12px; background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; }
-    .duration-btn:hover { border-color: var(--primary); background: var(--surface-elevated); }
-    .duration-btn.active { background: var(--gradient-primary); border-color: transparent; color: white; box-shadow: 0 4px 15px var(--primary-glow); }
-    .type-options { display: flex; gap: 8px; }
-    .type-btn { flex: 1; padding: 10px; background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text); font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease; }
-    .type-btn:hover { border-color: var(--primary); }
-    .type-btn.active { background: rgba(99,102,241,0.2); border-color: var(--primary); color: var(--primary); }
-
-    .subjects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
-    .subject-card { background: var(--surface-elevated); border-radius: 12px; padding: 18px; cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; position: relative; overflow: hidden; }
-    .subject-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--subject-color, var(--primary)); }
-    .subject-card:hover { transform: translateY(-4px); border-color: var(--subject-color, var(--primary)); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
-    .subject-card.active { border-color: var(--subject-color, var(--primary)); background: rgba(99,102,241,0.1); }
-    .subject-icon { font-size: 2rem; margin-bottom: 10px; }
-    .subject-name { font-weight: 600; font-size: 1rem; margin-bottom: 10px; }
-    .subject-progress { height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; margin-bottom: 10px; }
-    .subject-progress-fill { height: 100%; background: var(--subject-color, var(--primary)); border-radius: 3px; transition: width 0.5s ease; box-shadow: 0 0 10px var(--subject-color, var(--primary)); }
-    .subject-stats { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); }
-    .subject-actions { position: absolute; top: 8px; right: 8px; display: flex; gap: 4px; opacity: 0; transition: opacity 0.3s ease; }
-    .subject-card:hover .subject-actions { opacity: 1; }
-    .action-btn { width: 28px; height: 28px; border-radius: 6px; border: none; background: var(--surface); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
-    .action-btn:hover { background: var(--primary); color: white; }
-    .action-btn.delete:hover { background: var(--danger); }
-
-    .chapters-panel { max-height: 450px; overflow-y: auto; padding-right: 8px; }
-    .chapters-list { display: flex; flex-direction: column; gap: 10px; }
-    .chapter-item { display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--surface-elevated); border-radius: 8px; transition: all 0.3s ease; }
-    .chapter-item:hover { background: var(--surface-hover); }
-    .chapter-checkbox { width: 26px; height: 26px; border: 2px solid var(--text-muted); border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; flex-shrink: 0; }
-    .chapter-checkbox.checked { background: var(--success); border-color: var(--success); box-shadow: 0 0 15px var(--success-glow); }
-    .chapter-checkbox svg { width: 16px; height: 16px; fill: white; opacity: 0; transition: opacity 0.2s ease; }
-    .chapter-checkbox.checked svg { opacity: 1; }
-    .chapter-info { flex: 1; min-width: 0; }
-    .chapter-name { font-size: 0.95rem; font-weight: 500; margin-bottom: 4px; }
-    .chapter-name.completed { text-decoration: line-through; color: var(--text-muted); }
-    .chapter-meta { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--text-muted); }
-    .chapter-rating { display: flex; gap: 3px; }
-    .star { width: 18px; height: 18px; cursor: pointer; fill: var(--surface-elevated); transition: fill 0.2s ease; }
-    .star.filled { fill: var(--warning); filter: drop-shadow(0 0 5px var(--warning-glow)); }
-    .star:hover { fill: var(--warning); }
-    .chapter-actions { display: flex; gap: 4px; opacity: 0; transition: opacity 0.2s ease; }
-    .chapter-item:hover .chapter-actions { opacity: 1; }
-    .add-chapter-btn { display: flex; align-items: center; gap: 8px; padding: 12px; background: var(--surface-elevated); border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; width: 100%; justify-content: center; font-size: 0.9rem; }
-    .add-chapter-btn:hover { border-color: var(--primary); color: var(--primary); background: rgba(99,102,241,0.1); }
-
-    .chatbot-container { height: 500px; display: flex; flex-direction: column; }
-    .chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-    .chat-message { max-width: 85%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.5; }
-    .chat-message.user { align-self: flex-end; background: var(--gradient-primary); border-bottom-right-radius: 4px; }
-    .chat-message.bot { align-self: flex-start; background: var(--surface-elevated); border-bottom-left-radius: 4px; white-space: pre-wrap; }
-    
-    .quick-actions { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; }
-    .quick-action { padding: 8px 14px; background: var(--surface-elevated); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; color: var(--text-secondary); font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease; }
-    .quick-action:hover { background: var(--primary); color: white; border-color: var(--primary); }
-    .chat-input-container { display: flex; gap: 12px; padding: 16px; border-top: 1px solid rgba(255,255,255,0.05); }
-    .chat-input { flex: 1; padding: 12px 16px; background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.95rem; }
-    .chat-input:focus { outline: none; border-color: var(--primary); }
-    .send-btn { width: 48px; height: 48px; background: var(--gradient-primary); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease; }
-    .send-btn:hover { transform: scale(1.1); }
-    .send-btn svg { width: 20px; height: 20px; fill: white; }
-
-    .test-builder { padding: 20px; }
-    .test-step { padding: 16px; background: var(--surface-elevated); border-radius: 12px; margin-bottom: 12px; border-left: 3px solid var(--primary); }
-    .test-step-title { font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-    .test-options { display: flex; gap: 8px; flex-wrap: wrap; }
-    .test-option { padding: 10px 16px; background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem; }
-    .test-option:hover { border-color: var(--primary); }
-    .test-option.selected { background: var(--primary); color: white; border-color: var(--primary); }
-    .test-option-input { width: 100%; padding: 12px; background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text); margin-top: 8px; }
-    .generate-btn { width: 100%; padding: 16px; background: var(--gradient-primary); border: none; border-radius: 12px; color: white; font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; }
-    .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--primary-glow); }
-
-    .test-output { margin-top: 20px; padding: 20px; background: var(--surface-elevated); border-radius: 12px; display: none; }
-    .test-output.active { display: block; }
-    .test-paper { white-space: pre-wrap; line-height: 1.8; }
-    .test-paper-header { text-align: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px solid var(--primary); }
-    .test-paper-title { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
-    .test-section { margin: 20px 0; }
-    .test-section-title { font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--accent); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-    .test-question { margin-bottom: 16px; padding-left: 20px; }
-    .test-marks { color: var(--text-muted); font-size: 0.85rem; }
-
-    .fab { position: fixed; bottom: 32px; right: 32px; width: 60px; height: 60px; background: var(--gradient-secondary); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 30px var(--secondary-glow); transition: all 0.3s ease; z-index: 100; }
-    .fab:hover { transform: scale(1.1) rotate(90deg); box-shadow: 0 8px 40px var(--secondary-glow); }
-    .fab svg { width: 28px; height: 28px; fill: white; }
-
-    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
-    .modal-overlay.active { display: flex; }
-    .modal { background: linear-gradient(135deg, var(--surface) 0%, var(--surface-elevated) 100%); border-radius: 16px; padding: 28px; width: 100%; max-width: 480px; border: 1px solid rgba(99,102,241,0.2); box-shadow: 0 20px 60px rgba(0,0,0,0.5); animation: modalIn 0.3s ease-out; max-height: 90vh; overflow-y: auto; }
-    @keyframes modalIn { 0% { opacity: 0; transform: scale(0.9) translateY(20px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    .modal-title { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; }
-    .modal-close { width: 36px; height: 36px; border-radius: 50%; border: none; background: var(--surface-elevated); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
-    .modal-close:hover { background: var(--danger); color: white; }
-    .modal-close svg { width: 20px; height: 20px; fill: currentColor; }
-    .color-picker { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
-    .color-option { width: 36px; height: 36px; border-radius: 50%; border: 3px solid transparent; cursor: pointer; transition: all 0.3s ease; }
-    .color-option:hover { transform: scale(1.1); }
-    .color-option.selected { border-color: white; box-shadow: 0 0 15px currentColor; }
-    .icon-picker { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-    .icon-option { width: 44px; height: 44px; border-radius: 8px; border: 2px solid transparent; background: var(--surface-elevated); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; transition: all 0.3s ease; }
-    .icon-option:hover { background: var(--surface-hover); }
-    .icon-option.selected { border-color: var(--primary); background: rgba(99,102,241,0.2); }
-    .priority-options { display: flex; gap: 8px; }
-    .priority-btn { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: var(--surface-elevated); color: var(--text-muted); cursor: pointer; font-size: 0.85rem; font-weight: 500; transition: all 0.3s ease; text-transform: capitalize; }
-    .priority-btn:hover { background: var(--surface-hover); }
-    .priority-btn.active { color: white; }
-    .priority-btn.high.active { background: var(--danger); border-color: var(--danger); }
-    .priority-btn.medium.active { background: var(--warning); border-color: var(--warning); }
-    .priority-btn.low.active { background: var(--success); border-color: var(--success); }
-    .modal-actions { display: flex; gap: 12px; margin-top: 24px; }
-    .modal-actions .btn { flex: 1; justify-content: center; }
-
-    .focus-overlay, .break-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #0f0f23 0%, #1a1035 50%, #0f0f23 100%); z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center; }
-    .focus-overlay.active, .break-overlay.active { display: flex; }
-    .focus-content { text-align: center; padding: 40px; }
-    .focus-streak { margin-bottom: 32px; }
-    .focus-streak .streak-icon { width: 80px; height: 80px; }
-    .focus-streak .streak-count { font-family: 'Rajdhani', sans-serif; font-size: 4rem; font-weight: 700; color: var(--warning); }
-    .focus-streak .streak-label { color: var(--text-secondary); font-size: 1rem; }
-    .countdown { font-family: 'Rajdhani', sans-serif; font-size: 5rem; font-weight: 700; color: var(--secondary); }
-    .break-title { font-family: 'Rajdhani', sans-serif; font-size: 2.5rem; font-weight: 700; color: var(--success); margin-bottom: 12px; }
-    .break-message { color: var(--text-secondary); margin-bottom: 40px; font-size: 1.1rem; }
-    .break-timer { font-family: 'Rajdhani', sans-serif; font-size: 5rem; font-weight: 700; color: var(--success); }
-
-    .xp-fly { position: fixed; pointer-events: none; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.8rem; color: var(--accent); animation: flyUp 1.5s ease-out forwards; z-index: 2000; }
-    @keyframes flyUp { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-120px) scale(1.5); } }
-    .confetti { position: fixed; pointer-events: none; z-index: 2000; }
-    .confetti-piece { position: absolute; width: 12px; height: 12px; animation: confettiFall 3s ease-out forwards; }
-    @keyframes confettiFall { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
-    .shake { animation: shake 0.5s ease-in-out; }
-    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
-
-    .achievements-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-    .badge { background: var(--surface-elevated); border-radius: 8px; padding: 16px 12px; text-align: center; border: 2px solid transparent; transition: all 0.3s ease; }
-    .badge.unlocked { border-color: var(--success); box-shadow: 0 0 20px var(--success-glow); }
-    .badge-icon { font-size: 2rem; margin-bottom: 8px; opacity: 0.3; transition: all 0.3s ease; }
-    .badge.unlocked .badge-icon { opacity: 1; }
-    .badge-name { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); }
-    .badge.unlocked .badge-name { color: var(--text); }
-
-    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .stat-card { background: var(--surface-elevated); border-radius: 8px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
-    .stat-value-large { font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 4px; }
-    .stat-label-small { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-
-    .heatmap-container { margin-top: 20px; }
-    .heatmap-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.75rem; color: var(--text-muted); }
-    .heatmap-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-    .heatmap-day { aspect-ratio: 1; background: var(--surface-elevated); border-radius: 4px; }
-    .heatmap-day.level-1 { background: rgba(16,185,129,0.3); }
-    .heatmap-day.level-2 { background: rgba(16,185,129,0.5); }
-    .heatmap-day.level-3 { background: rgba(16,185,129,0.7); }
-    .heatmap-day.level-4 { background: var(--success); }
-
-    .empty-state { text-align: center; padding: 48px 24px; color: var(--text-muted); }
-    .empty-state svg { width: 64px; height: 64px; fill: var(--text-muted); margin-bottom: 16px; opacity: 0.5; }
-    .empty-state-title { font-family: 'Rajdhani', sans-serif; font-size: 1.3rem; margin-bottom: 8px; color: var(--text); }
-
-    .card-title { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
-    .card-title svg { width: 24px; height: 24px; fill: var(--primary); }
-    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-
-    .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-    .tab { padding: 10px 20px; background: var(--surface-elevated); border: 1px solid transparent; border-radius: 8px; color: var(--text-secondary); cursor: pointer; transition: all 0.3s ease; font-weight: 500; }
-    .tab:hover { border-color: var(--primary); }
-    .tab.active { background: var(--primary); color: white; }
-
-    .typing-indicator { display: flex; gap: 4px; padding: 12px 16px; }
-    .typing-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: bounce 1s infinite; }
-    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
-    .reset-btn { background: transparent; border: 1px solid var(--danger); color: var(--danger); padding: 8px 16px; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.8rem; cursor: pointer; transition: all 0.3s ease; }
-    .reset-btn:hover { background: var(--danger); color: white; }
-
-    /* Admin Panel */
-    .admin-modal { max-width: 700px !important; }
-    .admin-section { margin-bottom: 24px; }
-    .admin-section-title { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
-    .user-card { background: var(--surface); border-radius: 12px; padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s ease; border: 1px solid transparent; }
-    .user-card:hover { border-color: var(--primary); }
-    .user-info { display: flex; align-items: center; gap: 12px; flex: 1; }
-    .user-avatar { width: 48px; height: 48px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; }
-    .user-details h4 { font-size: 1rem; margin-bottom: 2px; display: flex; align-items: center; gap: 8px; }
-    .user-details p { font-size: 0.85rem; color: var(--text-muted); }
-    .user-role { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
-    .user-role.admin { background: var(--secondary); color: white; }
-    .user-role.student { background: var(--primary); color: white; }
-    .user-controls { display: flex; gap: 8px; }
-    .add-user-btn { width: 100%; padding: 16px; background: var(--surface); border: 2px dashed var(--primary); border-radius: 12px; color: var(--primary); font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
-    .add-user-btn:hover { background: rgba(99,102,241,0.1); border-color: var(--primary); }
-
-    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .stat-mini { background: var(--surface); border-radius: 8px; padding: 16px; text-align: center; }
-    .stat-mini-value { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; }
-    .stat-mini-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
-
-    .admin-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-    .admin-tab { padding: 10px 20px; background: var(--surface); border: 1px solid transparent; border-radius: 8px; color: var(--text-secondary); cursor: pointer; font-weight: 500; transition: all 0.3s ease; }
-    .admin-tab:hover { border-color: var(--primary); }
-    .admin-tab.active { background: var(--primary); color: white; }
-
-    @media (max-width: 1024px) { .main-grid { grid-template-columns: 1fr; } .command-content { grid-template-columns: 1fr; gap: 24px; } .subjects-grid { grid-template-columns: repeat(2, 1fr); } .achievements-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 768px) { .app { padding: 16px; } .header { flex-direction: column; gap: 16px; text-align: center; } .header-stats { flex-wrap: wrap; justify-content: center; } .subjects-grid { grid-template-columns: 1fr; } .achievements-grid { grid-template-columns: repeat(2, 1fr); } .stats-grid { grid-template-columns: 1fr; } .timer-ring { width: 160px; height: 160px; } .timer-time { font-size: 2.5rem; } .fab { bottom: 20px; right: 20px; width: 54px; height: 54px; } .stats-row { grid-template-columns: 1fr; } }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <svg width="0" height="0">
-    <defs>
-      <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient>
-      <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#10b981"/></linearGradient>
-    </defs>
-  </svg>
+  <!-- Background -->
+  <div class="bg-animation" id="bgAnimation" aria-hidden="true"></div>
+  <div class="grid-pattern" aria-hidden="true"></div>
 
-  <div class="bg-animation" id="bgAnimation"></div>
-  <div class="grid-pattern"></div>
+  <!-- Toast Container -->
+  <div id="toastContainer" role="status" aria-live="polite"></div>
 
-  <!-- Focus/Break Overlays -->
-  <div class="focus-overlay" id="focusOverlay">
-    <div class="focus-content">
-      <div class="focus-streak">
-        <svg class="streak-icon" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2C10.5 6 8 8 8 12C8 15.5 9.5 18 12 18C14.5 18 16 15.5 16 12C16 8 13.5 6 12 2Z"/><path d="M12 20C10 22 7 22 7 22C7 22 8 20 10 19C10 19 9 18 9 17C9 15 12 14 12 14C12 14 15 15 15 17C15 18 14 19 14 19C16 20 17 22 17 22C17 22 14 22 12 20Z"/></svg>
-        <div class="streak-count" id="focusStreakCount">0</div>
-        <div class="streak-label">Day Streak</div>
-      </div>
-      <div class="timer-ring" style="margin-bottom: 24px;">
-        <svg viewBox="0 0 200 200"><circle class="timer-ring-bg" cx="100" cy="100" r="90"/><circle class="timer-ring-progress" id="focusTimerProgress" cx="100" cy="100" r="90"/></svg>
-        <div class="timer-display">
-          <div class="timer-time" id="focusTimerTime">25:00</div>
-          <div class="timer-subject" id="focusTimerSubject">Select a subject</div>
-        </div>
-      </div>
-      <div style="display: flex; gap: 16px; justify-content: center;">
-        <button class="btn btn-secondary" onclick="togglePause()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg> Pause</button>
-        <button class="btn btn-danger" onclick="endSession()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h12v12H6z"/></svg> End Session</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="break-overlay" id="breakOverlay">
-    <div class="break-title">BREAK TIME</div>
-    <div class="break-message">You've earned it. Rest up, warrior.</div>
-    <div class="break-timer" id="breakTimer">05:00</div>
-    <button class="btn btn-success" style="margin-top: 32px;" onclick="skipBreak()">Skip Break</button>
-  </div>
-
-  <!-- Login Modal -->
-  <div class="modal-overlay" id="loginModal">
+  <!-- ========== LOGIN MODAL ========== -->
+  <div class="modal-overlay" id="loginModal" role="dialog" aria-label="Login">
     <div class="auth-card">
-      <div style="text-align: center; margin-bottom: 24px;">
-        <div class="logo-icon" style="margin: 0 auto 16px;"><svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg></div>
+      <div style="text-align:center;margin-bottom:24px;">
+        <div class="logo-icon" style="margin:0 auto 16px;" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+        </div>
         <h1 class="auth-title">FocusForge</h1>
         <p class="auth-subtitle">ICSE Boards Study System</p>
       </div>
-      
+
+      <!-- Step 1: Verification Code -->
       <div id="codeStep">
         <div class="code-display">
           <div class="code-label">Your Verification Code</div>
-          <div class="code-number" id="displayCode">------</div>
-          <button class="btn btn-primary btn-small" style="margin-top: 12px;" onclick="generateNewCode()">🔄 Get New Code</button>
+          <div class="code-number" id="displayCode" aria-live="polite">------</div>
+          <button class="btn btn-primary btn-small" style="margin-top:12px;" onclick="generateNewCode()" aria-label="Generate new verification code">🔄 New Code</button>
         </div>
         <div class="form-group">
-          <label class="form-label">Enter 6-digit Code</label>
-          <input type="text" id="verificationCode" class="form-input" placeholder="Enter code to continue" maxlength="6" style="text-align: center; font-size: 1.2rem; letter-spacing: 5px;">
+          <label class="form-label" for="verificationCode">Enter 6-digit Code</label>
+          <input type="text" id="verificationCode" class="form-input" placeholder="Enter code to continue" maxlength="6" style="text-align:center;font-size:1.2rem;letter-spacing:5px;" onkeydown="handleCodeKeydown(event)">
         </div>
-        <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="verifyCode()">Continue</button>
-        <div id="codeError" class="form-error" style="margin-top: 12px;"></div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="verifyCode()">Continue</button>
+        <div id="loginError" class="form-error" aria-live="assertive"></div>
       </div>
 
-      <div id="userStep" style="display: none;">
+      <!-- Step 2: User + Password -->
+      <div id="userStep" style="display:none;">
         <div class="form-group">
-          <label class="form-label">Select User</label>
+          <label class="form-label" for="userSelect">Select User</label>
           <select class="session-subject-select" id="userSelect"></select>
         </div>
         <div class="form-group">
-          <label class="form-label">Password</label>
+          <label class="form-label" for="loginPassword">Password</label>
           <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password">
         </div>
-        <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="handleLogin()">Sign In</button>
-        <div id="loginError" class="form-error" style="margin-top: 12px;"></div>
-        <button class="btn btn-secondary btn-small" style="width: 100%; margin-top: 12px;" onclick="backToCode()">← Back to Code Entry</button>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="handleLogin()">Sign In</button>
+        <button class="btn btn-secondary btn-small" style="width:100%;margin-top:12px;" onclick="backToCode()">← Back to Code Entry</button>
       </div>
     </div>
   </div>
 
-  <!-- Add User Modal -->
-  <div class="modal-overlay" id="addUserModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h3 class="modal-title">➕ Add New User</h3>
-        <button class="modal-close" onclick="closeAddUserModal()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+  <!-- ========== FIRST-RUN SETUP MODAL ========== -->
+  <div class="modal-overlay" id="setupModal" role="dialog" aria-label="Initial Setup">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeSetupModal()" aria-label="Close setup">
+        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+      <h2 class="modal-title">🎓 Welcome to FocusForge</h2>
+      <p style="color:var(--text-secondary);margin-bottom:24px;">Create an admin account to get started. This is a local profile — not a real login.</p>
+      <div class="form-group">
+        <label class="form-label" for="setupName">Full Name</label>
+        <input type="text" id="setupName" class="form-input" placeholder="e.g., John Doe">
       </div>
       <div class="form-group">
-        <label class="form-label">Full Name</label>
-        <input type="text" id="newUserName" class="form-input" placeholder="e.g., John Doe">
+        <label class="form-label" for="setupEmail">Email</label>
+        <input type="email" id="setupEmail" class="form-input" placeholder="e.g., john@school.edu">
       </div>
       <div class="form-group">
-        <label class="form-label">Email</label>
-        <input type="email" id="newUserEmail" class="form-input" placeholder="e.g., john@school.edu">
+        <label class="form-label" for="setupPassword">Password (min 6 characters)</label>
+        <input type="password" id="setupPassword" class="form-input" placeholder="Choose a password">
       </div>
       <div class="form-group">
-        <label class="form-label">Password</label>
-        <input type="password" id="newUserPassword" class="form-input" placeholder="Set a password">
+        <label class="form-label" for="setupConfirm">Confirm Password</label>
+        <input type="password" id="setupConfirm" class="form-input" placeholder="Confirm password">
       </div>
-      <div class="form-group">
-        <label class="form-label">Role</label>
-        <div style="display: flex; gap: 8px;">
-          <button class="btn btn-secondary" id="roleStudent" onclick="setNewUserRole('student')" style="flex: 1;">👤 Student</button>
-          <button class="btn btn-secondary" id="roleAdmin" onclick="setNewUserRole('admin')" style="flex: 1;">👑 Admin</button>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="handleSetup()">Create Admin Account</button>
+    </div>
+  </div>
+
+  <!-- ========== FOCUS OVERLAY ========== -->
+  <div class="focus-overlay" id="focusOverlay" role="dialog" aria-label="Focus timer">
+    <div class="focus-label" id="focusLabel">Focus Time</div>
+    <div class="focus-subject" id="focusSubject">Subject</div>
+    <div class="focus-timer" id="focusTimer" aria-live="polite">25:00</div>
+    <div style="display:flex;gap:16px;margin-top:32px;">
+      <button class="btn btn-secondary" onclick="startTimer()" aria-label="Pause or resume timer">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg> Pause
+      </button>
+      <button class="btn btn-danger" onclick="stopTimer()" aria-label="Stop focus session">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M6 6h12v12H6z"/></svg> End Session
+      </button>
+    </div>
+  </div>
+
+  <!-- ========== MAIN APP ========== -->
+  <div class="app" id="mainApp" style="display:none;">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <div class="logo-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+        </div>
+        <div>
+          <span class="logo-text">FocusForge</span>
+          <div style="font-size:0.75rem;color:var(--text-secondary);">Welcome, <span id="userName">Student</span></div>
         </div>
       </div>
-      <div class="modal-actions">
-        <button class="btn btn-secondary" onclick="closeAddUserModal()">Cancel</button>
-        <button class="btn btn-success" onclick="saveNewUser()">✅ Create User</button>
+      <div class="header-stats" id="headerStats" style="display:none;">
+        <div class="stat-item" aria-label="Streak">
+          <svg viewBox="0 0 24 24" fill="#f59e0b" width="24" height="24" aria-hidden="true"><path d="M12 2C10.5 6 8 8 8 12C8 15.5 9.5 18 12 18C14.5 18 16 15.5 16 12C16 8 13.5 6 12 2Z"/><path d="M12 20C10 22 7 22 7 22C7 22 8 20 10 19C10 19 9 18 9 17C9 15 12 14 12 14C12 14 15 15 15 17C15 18 14 19 14 19C16 20 17 22 17 22C17 22 14 22 12 20Z"/></svg>
+          <span style="font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--warning);" id="headerStreak">0</span>
+        </div>
+        <div class="stat-item" aria-label="Experience points">
+          <svg viewBox="0 0 24 24" fill="#22d3ee" width="24" height="24" aria-hidden="true"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+          <span style="font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--accent);" id="headerXP">0 XP</span>
+        </div>
+        <div class="level-badge" id="headerLevel">CADET</div>
+        <button class="btn btn-secondary btn-small" id="adminBtn" style="display:none;" onclick="openAdminModal()" aria-label="Open admin panel">⚙️ Admin</button>
+        <button class="btn btn-secondary btn-small" onclick="downloadBackup()" aria-label="Download backup">💾 Backup</button>
+        <button class="btn btn-secondary btn-small" onclick="handleLogout()" aria-label="Sign out">Logout</button>
       </div>
-    </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="main-grid">
+
+      <!-- ===== COMMAND CENTER ===== -->
+      <section class="card command-center" aria-label="Command Center">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            COMMAND CENTER
+          </h2>
+        </div>
+        <div class="command-content">
+          <!-- Streak -->
+          <div class="streak-display">
+            <div class="streak-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 2C10.5 6 8 8 8 12C8 15.5 9.5 18 12 18C14.5 18 16 15.5 16 12C16 8 13.5 6 12 2Z"/><path d="M12 20C10 22 7 22 7 22C7 22 8 20 10 19C10 19 9 18 9 17C9 15 12 14 12 14C12 14 15 15 15 17C15 18 14 19 14 19C16 20 17 22 17 22C17 22 14 22 12 20Z"/></svg>
+            </div>
+            <div class="streak-count" id="streakCount">0</div>
+            <div class="streak-label">Day Streak</div>
+            <span class="streak-multiplier" id="streakMultiplier">1.0x</span>
+          </div>
+
+          <!-- Timer -->
+          <div class="timer-section">
+            <div class="timer-ring">
+              <svg viewBox="0 0 200 200">
+                <defs>
+                  <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient>
+                </defs>
+                <circle class="timer-ring-bg" cx="100" cy="100" r="90"/>
+                <circle class="timer-ring-progress" id="timerProgress" cx="100" cy="100" r="90"/>
+              </svg>
+              <div class="timer-display">
+                <div class="timer-time" id="timerDisplay">25:00</div>
+                <div class="timer-label" id="timerLabel">Focus Time</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;justify-content:center;">
+              <button class="btn btn-primary" id="startBtn" onclick="startTimer()" aria-label="Start focus session">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M8 5v14l11-7z"/></svg> Start Session
+              </button>
+              <button class="btn btn-danger" id="resetBtn" style="display:none;" onclick="resetTimer()" aria-label="Reset timer">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M6 6h12v12H6z"/></svg> Reset
+              </button>
+            </div>
+          </div>
+
+          <!-- XP Progress -->
+          <div class="progress-section">
+            <div style="text-align:center;">
+              <div style="font-size:1.5rem;font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--accent);" id="xpProgress">0%</div>
+              <div style="font-size:0.85rem;color:var(--text-muted);" id="xpNeeded">0 / 100 XP</div>
+            </div>
+            <div class="level-progress">
+              <div class="level-header">
+                <span class="level-current" id="currentLevelName">CADET</span>
+                <span style="color:var(--text-muted);" id="nextLevelName">ENSIGN (100 XP)</span>
+              </div>
+              <div class="level-bar">
+                <div class="level-fill" id="levelFill" style="width:0%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SESSION SETUP ===== -->
+      <section class="card" aria-label="Session Setup">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            SESSION SETUP
+          </h2>
+        </div>
+        <div class="session-setup">
+          <div class="form-group">
+            <label class="form-label" for="sessionSubject">Select Subject</label>
+            <select class="session-subject-select" id="sessionSubject">
+              <option value="">Choose your battlefield...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Duration</label>
+            <div class="duration-options">
+              <button class="duration-btn active" data-duration="25" onclick="selectDuration(this)" aria-label="25 minute session">25m</button>
+              <button class="duration-btn" data-duration="45" onclick="selectDuration(this)" aria-label="45 minute session">45m</button>
+              <button class="duration-btn" data-duration="60" onclick="selectDuration(this)" aria-label="60 minute session">60m</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Session Type</label>
+            <div class="type-options">
+              <button class="type-btn active" data-type="focus" onclick="selectSessionType(this)">📖 Focus</button>
+              <button class="type-btn" data-type="break" onclick="selectSessionType(this)">☕ Break</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SUBJECTS ===== -->
+      <section class="card" aria-label="Your Subjects">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"/></svg>
+            YOUR SUBJECTS
+          </h2>
+        </div>
+        <div class="subjects-grid" id="subjectsGrid">
+          <p style="color:var(--text-muted);text-align:center;padding:40px;">No subjects yet. Click + to add!</p>
+        </div>
+      </section>
+
+      <!-- ===== AI ASSISTANT ===== -->
+      <section class="card" aria-label="AI Study Assistant">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            🤖 STUDY ASSISTANT
+          </h2>
+        </div>
+        <div class="chatbot-container">
+          <div class="chat-messages" id="chatMessages">
+            <div class="chat-message bot">🤖 <strong>Welcome!</strong> I can help with ICSE topics. Try: "explain quadratic", "study tips", or use the Test Builder tab.</div>
+          </div>
+          <div class="quick-actions">
+            <button class="quick-action" onclick="sendQuickMessage('Explain quadratic equations')">📐 Quadratic</button>
+            <button class="quick-action" onclick="sendQuickMessage('Explain trigonometry')">📏 Trigonometry</button>
+            <button class="quick-action" onclick="sendQuickMessage('Study tips')">💡 Tips</button>
+            <button class="quick-action" onclick="sendQuickMessage('Explain chemical bonding')">🧪 Chemistry</button>
+          </div>
+          <div class="chat-input-container">
+            <label for="chatInput" class="sr-only">Chat message</label>
+            <input type="text" class="chat-input" id="chatInput" placeholder="Ask about any ICSE topic..." onkeydown="handleChatKeydown(event)">
+            <button class="send-btn" onclick="sendMessage()" aria-label="Send message">
+              <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== TEST BUILDER ===== -->
+      <section class="card" aria-label="Test Paper Builder">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+            📝 TEST BUILDER
+          </h2>
+        </div>
+        <div class="test-builder">
+          <div class="test-step">
+            <div class="test-step-title">📚 Step 1: Topic</div>
+            <select class="session-subject-select" id="testSubject">
+              <option value="">Select Subject</option>
+            </select>
+            <label for="testChapter" class="sr-only">Chapter name</label>
+            <input type="text" id="testChapter" class="form-input" placeholder="Or type chapter name" style="margin-top:8px;">
+          </div>
+          <div class="test-step">
+            <div class="test-step-title">📊 Step 2: Total Marks</div>
+            <div class="test-options">
+              <div class="test-option" data-marks="20" onclick="selectMarks(this)" role="button" tabindex="0">20 Marks</div>
+              <div class="test-option selected" data-marks="50" onclick="selectMarks(this)" role="button" tabindex="0">50 Marks</div>
+              <div class="test-option" data-marks="100" onclick="selectMarks(this)" role="button" tabindex="0">100 Marks</div>
+            </div>
+          </div>
+          <button class="generate-btn" onclick="generateTestPaper()">⚡ GENERATE TEST PAPER</button>
+          <div class="test-output" id="testOutput">
+            <div class="test-paper" id="testPaperContent"></div>
+            <button class="btn btn-secondary btn-small" style="margin-top:16px;" onclick="copyTest()">📋 Copy</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ACHIEVEMENTS ===== -->
+      <section class="card" aria-label="Achievements">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
+            ACHIEVEMENTS
+          </h2>
+        </div>
+        <div class="achievements-grid" id="achievementsGrid"></div>
+      </section>
+
+      <!-- ===== STATISTICS ===== -->
+      <section class="card" aria-label="Study Statistics">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+            BATTLE STATISTICS
+          </h2>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value-large" style="color:var(--primary);" id="totalTime">0h</div>
+            <div class="stat-label-small">Total Study Time</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value-large" style="color:var(--success);" id="totalSessions">0</div>
+            <div class="stat-label-small">Sessions Completed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value-large" style="color:var(--warning);" id="longestStreak">0</div>
+            <div class="stat-label-small">Longest Streak</div>
+          </div>
+        </div>
+        <div class="heatmap-container">
+          <div class="heatmap-header">
+            <span>Study Activity (Last 28 Days)</span>
+            <span>Less ▪ ▪ ▪ ▪ More</span>
+          </div>
+          <div class="heatmap-grid" id="heatmapGrid"></div>
+        </div>
+      </section>
+
+    </main>
   </div>
 
-  <!-- Edit User Modal -->
-  <div class="modal-overlay" id="editUserModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h3 class="modal-title">✏️ Edit User</h3>
-        <button class="modal-close" onclick="closeEditUserModal()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
-      </div>
-      <input type="hidden" id="editUserIndex">
+  <!-- FAB: Add Subject -->
+  <button class="fab" id="fab" style="display:none;" onclick="openSubjectModal()" aria-label="Add new subject">
+    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+  </button>
+
+  <!-- ========== SUBJECT MODAL ========== -->
+  <div class="modal-overlay" id="subjectModal" role="dialog" aria-label="Add Subject">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeSubjectModal()" aria-label="Close">
+        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+      <h2 class="modal-title">Add New Subject</h2>
       <div class="form-group">
-        <label class="form-label">Full Name</label>
-        <input type="text" id="editUserName" class="form-input">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Email</label>
-        <input type="email" id="editUserEmail" class="form-input" readonly style="opacity: 0.6; cursor: not-allowed;">
-      </div>
-      <div class="form-group">
-        <label class="form-label">New Password (leave blank to keep current)</label>
-        <input type="password" id="editUserPassword" class="form-input" placeholder="Enter new password">
+        <label class="form-label" for="subjectName">Subject Name</label>
+        <input type="text" id="subjectName" class="form-input" placeholder="e.g., Mathematics">
       </div>
       <div class="form-group">
-        <label class="form-label">Role</label>
-        <div style="display: flex; gap: 8px;">
-          <button class="btn btn-secondary" id="editRoleStudent" onclick="setEditUserRole('student')" style="flex: 1;">👤 Student</button>
-          <button class="btn btn-secondary" id="editRoleAdmin" onclick="setEditUserRole('admin')" style="flex: 1;">👑 Admin</button>
+        <label class="form-label">Color</label>
+        <div class="color-picker" id="colorPicker" role="radiogroup" aria-label="Subject color">
+          <div class="color-option selected" data-color="#6366f1" style="background:#6366f1;" role="radio" tabindex="0" aria-label="Indigo" onclick="selectColor(this)"></div>
+          <div class="color-option" data-color="#ec4899" style="background:#ec4899;" role="radio" tabindex="0" aria-label="Pink" onclick="selectColor(this)"></div>
+          <div class="color-option" data-color="#22d3ee" style="background:#22d3ee;" role="radio" tabindex="0" aria-label="Cyan" onclick="selectColor(this)"></div>
+          <div class="color-option" data-color="#10b981" style="background:#10b981;" role="radio" tabindex="0" aria-label="Green" onclick="selectColor(this)"></div>
+          <div class="color-option" data-color="#f59e0b" style="background:#f59e0b;" role="radio" tabindex="0" aria-label="Amber" onclick="selectColor(this)"></div>
+          <div class="color-option" data-color="#a855f7" style="background:#a855f7;" role="radio" tabindex="0" aria-label="Purple" onclick="selectColor(this)"></div>
+          <div class="color-option" data-color="#ef4444" style="background:#ef4444;" role="radio" tabindex="0" aria-label="Red" onclick="selectColor(this)"></div>
+          <div class="color-option" data-color="#06b6d4" style="background:#06b6d4;" role="radio" tabindex="0" aria-label="Teal" onclick="selectColor(this)"></div>
         </div>
       </div>
-      <div class="modal-actions">
-        <button class="btn btn-danger" onclick="deleteUser()">🗑️ Delete User</button>
-        <button class="btn btn-primary" onclick="updateUser()">💾 Save Changes</button>
+      <div class="form-group">
+        <label class="form-label">Icon</label>
+        <div class="icon-picker" id="iconPicker" role="radiogroup" aria-label="Subject icon">
+          <div class="icon-option selected" data-icon="📚" role="radio" tabindex="0" aria-label="Books" onclick="selectIcon(this)">📚</div>
+          <div class="icon-option" data-icon="📐" role="radio" tabindex="0" aria-label="Ruler" onclick="selectIcon(this)">📐</div>
+          <div class="icon-option" data-icon="🧪" role="radio" tabindex="0" aria-label="Chemistry" onclick="selectIcon(this)">🧪</div>
+          <div class="icon-option" data-icon="🔬" role="radio" tabindex="0" aria-label="Microscope" onclick="selectIcon(this)">🔬</div>
+          <div class="icon-option" data-icon="🌍" role="radio" tabindex="0" aria-label="Globe" onclick="selectIcon(this)">🌍</div>
+          <div class="icon-option" data-icon="📖" role="radio" tabindex="0" aria-label="Book" onclick="selectIcon(this)">📖</div>
+          <div class="icon-option" data-icon="💻" role="radio" tabindex="0" aria-label="Computer" onclick="selectIcon(this)">💻</div>
+          <div class="icon-option" data-icon="🎯" role="radio" tabindex="0" aria-label="Target" onclick="selectIcon(this)">🎯</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:24px;">
+        <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="closeSubjectModal()">Cancel</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="saveSubject()">Add Subject</button>
       </div>
     </div>
   </div>
 
-  <!-- Admin Panel Modal -->
-  <div class="modal-overlay" id="adminModal">
-    <div class="modal admin-modal">
-      <div class="modal-header">
-        <h3 class="modal-title">⚙️ Admin Panel</h3>
-        <button class="modal-close" onclick="closeAdminModal()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+  <!-- ========== CHAPTER MODAL ========== -->
+  <div class="modal-overlay" id="chapterModal" role="dialog" aria-label="Chapters">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeChapterModal()" aria-label="Close">
+        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+      <h2 class="modal-title">📖 <span id="chapterSubjectName">Subject</span></h2>
+      <div id="chaptersList" class="chapters-list"></div>
+      <div id="addChapterInput" style="display:none;margin-top:16px;">
+        <div class="form-group">
+          <label class="form-label" for="newChapterName">New Chapter Name</label>
+          <input type="text" id="newChapterName" class="form-input" placeholder="e.g., Quadratic Equations">
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-secondary btn-small" onclick="closeAddChapterInput()">Cancel</button>
+          <button class="btn btn-primary btn-small" onclick="saveNewChapter()">Add Chapter</button>
+        </div>
       </div>
-      
+      <button class="add-chapter-btn" id="addChapterBtn" onclick="openAddChapterInput()" style="margin-top:16px;">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        Add Chapter
+      </button>
+    </div>
+  </div>
+
+  <!-- ========== ADMIN MODAL ========== -->
+  <div class="modal-overlay" id="adminModal" role="dialog" aria-label="Admin Panel">
+    <div class="modal-content" style="max-width:700px;">
+      <button class="modal-close" onclick="closeAdminModal()" aria-label="Close">
+        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+      <h2 class="modal-title">⚙️ Admin Panel</h2>
+
       <div class="admin-tabs">
-        <button class="admin-tab active" onclick="switchAdminTab('users')">👥 Users</button>
-        <button class="admin-tab" onclick="switchAdminTab('stats')">📊 Stats</button>
-        <button class="admin-tab" onclick="switchAdminTab('settings')">⚡ Settings</button>
+        <button class="admin-tab active" onclick="switchAdminTab('users',this)">👥 Users</button>
+        <button class="admin-tab" onclick="switchAdminTab('stats',this)">📊 Stats</button>
+        <button class="admin-tab" onclick="switchAdminTab('settings',this)">⚡ Settings</button>
       </div>
 
+      <!-- Users Tab -->
       <div id="adminUsersTab">
-        <div class="admin-section-title">👥 User Management</div>
-        <div id="adminUserList"></div>
-        <button class="add-user-btn" onclick="openAddUserModal()">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="admin-user-list" id="adminUserList"></div>
+        <button class="btn btn-primary" style="width:100%;margin-top:16px;justify-content:center;" onclick="openAddUserModal()">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
           Add New User
         </button>
       </div>
 
-      <div id="adminStatsTab" style="display: none;">
-        <div class="admin-section-title">📊 System Statistics</div>
-        <div class="stats-row">
-          <div class="stat-mini">
-            <div class="stat-mini-value" style="color: var(--primary);" id="adminTotalUsers">0</div>
-            <div class="stat-mini-label">Total Users</div>
+      <!-- Stats Tab -->
+      <div id="adminStatsTab" style="display:none;">
+        <div class="admin-stats-grid">
+          <div class="admin-stat-card">
+            <div class="admin-stat-value" id="adminTotalUsers">0</div>
+            <div class="admin-stat-label">Total Users</div>
           </div>
-          <div class="stat-mini">
-            <div class="stat-mini-value" style="color: var(--success);" id="adminTotalXP">0</div>
-            <div class="stat-mini-label">Total XP</div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-value" id="adminTotalXP">0</div>
+            <div class="admin-stat-label">Total XP</div>
           </div>
-          <div class="stat-mini">
-            <div class="stat-mini-value" style="color: var(--warning);" id="adminTotalSessions">0</div>
-            <div class="stat-mini-label">Sessions</div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-value" id="adminTotalSessions">0</div>
+            <div class="admin-stat-label">Sessions</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-value" id="adminTotalTime">0h</div>
+            <div class="admin-stat-label">Study Time</div>
           </div>
         </div>
       </div>
 
-      <div id="adminSettingsTab" style="display: none;">
-        <div class="admin-section-title">⚡ System Settings</div>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <button class="btn btn-warning" onclick="exportUserData()">📥 Export All Data</button>
-          <button class="btn btn-secondary" onclick="exportUsersCSV()">📋 Export Users (CSV)</button>
-          <button class="btn btn-danger" onclick="adminResetAll()">💥 Reset All Data</button>
+      <!-- Settings Tab -->
+      <div id="adminSettingsTab" style="display:none;">
+        <div class="settings-section">
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <button class="btn btn-secondary" onclick="exportUsersCSV()">📋 Export Users (CSV)</button>
+            <button class="btn btn-secondary" onclick="exportUserData()">📥 Export Data (JSON)</button>
+            <label class="btn btn-secondary" style="cursor:pointer;">
+              📤 Restore Backup
+              <input type="file" accept=".json" style="display:none;" onchange="handleRestore(event)">
+            </label>
+            <button class="btn btn-danger" onclick="resetAllData()">💥 Reset All Data</button>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Add Subject Modal -->
-  <div class="modal-overlay" id="subjectModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h3 class="modal-title" id="subjectModalTitle">Add New Subject</h3>
-        <button class="modal-close" onclick="closeSubjectModal()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
-      </div>
-      <div class="form-group"><label class="form-label">Subject Name</label><input type="text" id="subjectName" class="form-input" placeholder="e.g., Mathematics"></div>
-      <div class="form-group"><label class="form-label">Color</label><div class="color-picker" id="colorPicker">
-        <div class="color-option selected" data-color="#6366f1" style="background: #6366f1;"></div>
-        <div class="color-option" data-color="#ec4899" style="background: #ec4899;"></div>
-        <div class="color-option" data-color="#22d3ee" style="background: #22d3ee;"></div>
-        <div class="color-option" data-color="#10b981" style="background: #10b981;"></div>
-        <div class="color-option" data-color="#f59e0b" style="background: #f59e0b;"></div>
-        <div class="color-option" data-color="#a855f7" style="background: #a855f7;"></div>
-        <div class="color-option" data-color="#ef4444" style="background: #ef4444;"></div>
-        <div class="color-option" data-color="#06b6d4" style="background: #06b6d4;"></div>
-      </div></div>
-      <div class="form-group"><label class="form-label">Icon</label><div class="icon-picker" id="iconPicker">
-        <div class="icon-option selected" data-icon="📚">📚</div>
-        <div class="icon-option" data-icon="📐">📐</div>
-        <div class="icon-option" data-icon="🧪">🧪</div>
-        <div class="icon-option" data-icon="🔬">🔬</div>
-        <div class="icon-option" data-icon="🌍">🌍</div>
-        <div class="icon-option" data-icon="📖">📖</div>
-        <div class="icon-option" data-icon="💻">💻</div>
-        <div class="icon-option" data-icon="🎯">🎯</div>
-      </div></div>
-      <div class="modal-actions">
-        <button class="btn btn-secondary" onclick="closeSubjectModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveSubject()">Add Subject</button>
       </div>
     </div>
   </div>
 
-  <!-- Chapter Modal -->
-  <div class="modal-overlay" id="chapterModal">
-    <div class="modal">
-      <div class="modal-header"><h3 class="modal-title">Add New Chapter</h3><button class="modal-close" onclick="closeChapterModal()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></div>
-      <input type="hidden" id="chapterSubjectId">
-      <div class="form-group"><label class="form-label">Chapter Name</label><input type="text" id="chapterName" class="form-input" placeholder="e.g., Quadratic Equations"></div>
-      <div class="form-group"><label class="form-label">Priority</label><div class="priority-options">
-        <button class="priority-btn high active" data-priority="high" onclick="selectPriority('high')">HIGH</button>
-        <button class="priority-btn medium" data-priority="medium" onclick="selectPriority('medium')">MEDIUM</button>
-        <button class="priority-btn low" data-priority="low" onclick="selectPriority('low')">LOW</button>
-      </div></div>
-      <div class="modal-actions"><button class="btn btn-secondary" onclick="closeChapterModal()">Cancel</button><button class="btn btn-primary" onclick="saveChapter()">Add Chapter</button></div>
+  <!-- ========== ADD USER MODAL ========== -->
+  <div class="modal-overlay" id="addUserModal" role="dialog" aria-label="Add User">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeAddUserModal()" aria-label="Close">
+        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+      <h2 class="modal-title">➕ Add New User</h2>
+      <div class="form-group">
+        <label class="form-label" for="newUserName">Full Name</label>
+        <input type="text" id="newUserName" class="form-input" placeholder="e.g., John Doe">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="newUserEmail">Email</label>
+        <input type="email" id="newUserEmail" class="form-input" placeholder="e.g., john@school.edu">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="newUserPassword">Password (min 4 characters)</label>
+        <input type="password" id="newUserPassword" class="form-input" placeholder="Set a password">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Role</label>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-primary" id="roleStudent" onclick="setNewUserRole('student')" style="flex:1;">👤 Student</button>
+          <button class="btn btn-secondary" id="roleAdmin" onclick="setNewUserRole('admin')" style="flex:1;">👑 Admin</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:24px;">
+        <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="closeAddUserModal()">Cancel</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="saveNewUser()">✅ Create User</button>
+      </div>
     </div>
   </div>
 
-  <!-- Main App -->
-  <div class="app" id="mainApp" style="display: none;">
-    <header class="header">
-      <div class="logo">
-        <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg></div>
-        <div><span class="logo-text">FocusForge</span><div style="font-size: 0.75rem; color: var(--text-secondary);">Welcome, <span id="userName">Student</span></div></div>
+  <!-- ========== EDIT USER MODAL ========== -->
+  <div class="modal-overlay" id="editUserModal" role="dialog" aria-label="Edit User">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeEditUserModal()" aria-label="Close">
+        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+      <h2 class="modal-title">✏️ Edit User</h2>
+      <input type="hidden" id="editUserIndex">
+      <div class="form-group">
+        <label class="form-label" for="editUserName">Full Name</label>
+        <input type="text" id="editUserName" class="form-input">
       </div>
-      <div class="header-stats">
-        <div class="stat-item"><svg viewBox="0 0 24 24" fill="#f59e0b" width="24" height="24"><path d="M12 2C10.5 6 8 8 8 12C8 15.5 9.5 18 12 18C14.5 18 16 15.5 16 12C16 8 13.5 6 12 2Z"/><path d="M12 20C10 22 7 22 7 22C7 22 8 20 10 19C10 19 9 18 9 17C9 15 12 14 12 14C12 14 15 15 15 17C15 18 14 19 14 19C16 20 17 22 17 22C17 22 14 22 12 20Z"/></svg><span style="font-family: 'Rajdhani', sans-serif; font-weight: 700; color: var(--warning);" id="headerStreak">0</span></div>
-        <div class="stat-item"><svg viewBox="0 0 24 24" fill="#22d3ee" width="24" height="24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg><span style="font-family: 'Rajdhani', sans-serif; font-weight: 700; color: var(--accent);" id="headerXP">0 XP</span></div>
-        <div class="level-badge" id="headerLevel">CADET</div>
-        <button class="admin-badge" id="adminBtn" style="display: none;" onclick="openAdminModal()">⚙️ Admin</button>
-        <button class="reset-btn" onclick="resetAll()">Reset All</button>
-        <button class="btn btn-secondary btn-small" onclick="handleLogout()">Logout</button>
+      <div class="form-group">
+        <label class="form-label" for="editUserEmail">Email</label>
+        <input type="email" id="editUserEmail" class="form-input" readonly style="opacity:0.6;cursor:not-allowed;">
       </div>
-    </header>
-
-    <main class="main-grid">
-      <section class="card command-center">
-        <div class="card-header">
-          <h2 class="card-title"><svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>COMMAND CENTER</h2>
-          <button class="btn btn-primary" onclick="startFocusMode()">START MISSION</button>
+      <div class="form-group">
+        <label class="form-label" for="editUserPassword">New Password (leave blank to keep current)</label>
+        <input type="password" id="editUserPassword" class="form-input" placeholder="Enter new password">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Role</label>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-primary" id="editRoleStudent" onclick="setEditUserRole('student')" style="flex:1;">👤 Student</button>
+          <button class="btn btn-secondary" id="editRoleAdmin" onclick="setEditUserRole('admin')" style="flex:1;">👑 Admin</button>
         </div>
-        <div class="command-content">
-          <div class="streak-display">
-            <svg class="streak-icon" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2C10.5 6 8 8 8 12C8 15.5 9.5 18 12 18C14.5 18 16 15.5 16 12C16 8 13.5 6 12 2Z"/><path d="M12 20C10 22 7 22 7 22C7 22 8 20 10 19C10 19 9 18 9 17C9 15 12 14 12 14C12 14 15 15 15 17C15 18 14 19 14 19C16 20 17 22 17 22C17 22 14 22 12 20Z"/></svg>
-            <div class="streak-count" id="mainStreakCount">0</div>
-            <div class="streak-label">Day Streak</div>
-            <span class="streak-multiplier" id="streakMultiplier" style="display: none;">1.0x BONUS</span>
-          </div>
-          <div class="timer-section">
-            <div class="timer-ring">
-              <svg viewBox="0 0 200 200"><circle class="timer-ring-bg" cx="100" cy="100" r="90"/><circle class="timer-ring-progress" id="mainTimerProgress" cx="100" cy="100" r="90"/></svg>
-              <div class="timer-display">
-                <div class="timer-time" id="mainTimerTime">00:00</div>
-                <div class="timer-subject" id="mainTimerSubject">No active session</div>
-                <div class="timer-status" id="mainTimerStatus">READY</div>
-              </div>
-            </div>
-            <div class="timer-controls">
-              <button class="btn btn-primary" id="startBtn" onclick="startSession()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Start Mission</button>
-              <button class="btn btn-secondary" id="pauseBtn" onclick="togglePause()" style="display: none;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>Pause</button>
-            </div>
-          </div>
-          <div class="progress-section">
-            <div class="progress-ring-container">
-              <svg viewBox="0 0 150 150"><circle class="progress-ring-bg" cx="75" cy="75" r="65"/><circle class="progress-ring-fill" id="overallProgress" cx="75" cy="75" r="65"/></svg>
-              <div class="progress-percent" id="overallPercent">0%</div>
-            </div>
-            <div class="progress-label">Overall Progress</div>
-            <div class="level-progress">
-              <div class="level-header"><span class="level-current" id="currentLevel">Level 1: CADET</span><span class="level-next" id="nextLevel">Next: ENSIGN (100 XP)</span></div>
-              <div class="level-bar"><div class="level-fill" id="levelProgress" style="width: 0%"></div></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="card-header"><h2 class="card-title"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>MISSION SETUP</h2></div>
-        <div class="session-setup">
-          <div class="form-group"><label class="form-label">Select Subject</label><select class="session-subject-select" id="subjectSelect"><option value="">Choose your battlefield...</option></select></div>
-          <div class="form-group"><label class="form-label">Duration</label><div class="duration-options">
-            <button class="duration-btn active" data-duration="25" onclick="setDuration(25)">25m</button>
-            <button class="duration-btn" data-duration="45" onclick="setDuration(45)">45m</button>
-            <button class="duration-btn" data-duration="60" onclick="setDuration(60)">60m</button>
-          </div></div>
-          <div class="form-group"><label class="form-label">Mission Type</label><div class="type-options">
-            <button class="type-btn active" data-type="study" onclick="setSessionType('study')">📖 Study</button>
-            <button class="type-btn" data-type="revision" onclick="setSessionType('revision')">🔄 Revision</button>
-            <button class="type-btn" data-type="mock" onclick="setSessionType('mock')">🎯 Mock Test</button>
-          </div></div>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="card-header"><h2 class="card-title"><svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"/></svg>YOUR SUBJECTS</h2></div>
-        <div class="subjects-grid" id="subjectsGrid"><div class="empty-state"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><div class="empty-state-title">No Subjects Yet</div><div>Tap the + button to add your first subject!</div></div></div>
-      </section>
-
-      <section class="card">
-        <div class="card-header"><h2 class="card-title"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>CHAPTERS — <span id="chapterSubjectName" style="color: var(--primary);">Select a subject</span></h2></div>
-        <div class="chapters-panel" id="chaptersPanel"><div class="empty-state"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg><div class="empty-state-title">No Mission Selected</div><div>Pick a subject to see its chapters</div></div></div>
-      </section>
-
-      <section class="card" style="grid-column: 1 / -1;">
-        <div class="card-header">
-          <h2 class="card-title"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>🤖 AI STUDY ASSISTANT</h2>
-          <div class="tabs">
-            <button class="tab active" onclick="switchTab('chat')">💬 Chat</button>
-            <button class="tab" onclick="switchTab('test')">📝 Test Builder</button>
-          </div>
-        </div>
-        
-        <div class="chatbot-container" id="chatTab">
-          <div class="chat-messages" id="chatMessages">
-            <div class="chat-message bot">
-🤖 <strong>Welcome to FocusForge AI Tutor!</strong>
-
-I'm your personal study assistant for ICSE Class 10 boards.
-
-<strong>Here's how I can help:</strong>
-
-📝 <strong>Generate Test Papers</strong> - Custom chapter-wise tests with marking schemes
-💡 <strong>Explain Concepts</strong> - Get clear explanations of any topic
-📖 <strong>Summarize Chapters</strong> - Quick revision notes
-🎯 <strong>Practice Questions</strong> - ICSE board exam style questions
-
-What would you like to study today?
-            </div>
-          </div>
-          <div class="quick-actions">
-            <button class="quick-action" onclick="quickAction('test')">📝 Generate Test</button>
-            <button class="quick-action" onclick="quickAction('explain')">💡 Explain Concept</button>
-            <button class="quick-action" onclick="quickAction('summarize')">📖 Summarize</button>
-            <button class="quick-action" onclick="quickAction('practice')">🎯 Practice</button>
-          </div>
-          <div class="chat-input-container">
-            <input type="text" class="chat-input" id="chatInput" placeholder="Ask about any ICSE topic, generate tests, or request summaries..." onkeypress="handleChatKeypress(event)">
-            <button class="send-btn" onclick="sendChatMessage()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
-          </div>
-        </div>
-
-        <div id="testTab" style="display: none;">
-          <div class="test-builder">
-            <div class="test-step">
-              <div class="test-step-title">📚 Step 1: Topic/Chapter</div>
-              <select class="session-subject-select" id="testSubject"><option value="">Select Subject</option></select>
-              <input type="text" id="testChapter" class="form-input" placeholder="Or type chapter name" style="margin-top: 8px;">
-            </div>
-            <div class="test-step">
-              <div class="test-step-title">📊 Step 2: Total Marks</div>
-              <div class="test-options">
-                <div class="test-option" data-marks="20" onclick="selectMarks(this)">20 Marks</div>
-                <div class="test-option selected" data-marks="50" onclick="selectMarks(this)">50 Marks</div>
-                <div class="test-option" data-marks="100" onclick="selectMarks(this)">100 Marks</div>
-              </div>
-            </div>
-            <button class="generate-btn" onclick="generateTestPaper()">⚡ GENERATE TEST PAPER</button>
-            <div class="test-output" id="testOutput">
-              <div class="test-paper" id="testPaperContent"></div>
-              <button class="btn btn-secondary btn-small" style="margin-top: 16px;" onclick="copyTest()">📋 Copy</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="card-header"><h2 class="card-title"><svg viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>ACHIEVEMENTS</h2></div>
-        <div class="achievements-grid" id="achievementsGrid"></div>
-      </section>
-
-      <section class="card">
-        <div class="card-header"><h2 class="card-title"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>BATTLE STATISTICS</h2></div>
-        <div class="stats-grid">
-          <div class="stat-card"><div class="stat-value-large" style="color: var(--primary);" id="totalTime">0h</div><div class="stat-label-small">Total Study Time</div></div>
-          <div class="stat-card"><div class="stat-value-large" style="color: var(--success);" id="totalSessions">0</div><div class="stat-label-small">Sessions Completed</div></div>
-          <div class="stat-card"><div class="stat-value-large" style="color: var(--warning);" id="longestStreak">0</div><div class="stat-label-small">Longest Streak</div></div>
-        </div>
-        <div class="heatmap-container">
-          <div class="heatmap-header"><span>Study Activity (Last 28 Days)</span><span>Less ▪ ▪ ▪ ▪ More</span></div>
-          <div class="heatmap-grid" id="heatmapGrid"></div>
-        </div>
-      </section>
-    </main>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:24px;">
+        <button class="btn btn-danger" onclick="deleteUser()">🗑️ Delete</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="updateUser()">💾 Save Changes</button>
+      </div>
+    </div>
   </div>
 
-  <button class="fab" id="fab" onclick="openSubjectModal()" style="display: none;"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></button>
-
-  <script>
-    // Default users (admin always first, non-deletable)
-    const defaultUsers = [
-      { name: 'Admin', email: 'admin@focusforge.com', password: 'admin123', role: 'admin' }
-    ];
-
-    // Load all users from localStorage
-    function loadAllUsers() {
-      const stored = localStorage.getItem('focusforge-all-users');
-      if (stored) {
-        try {
-          return JSON.parse(stored);
-        } catch(e) {
-          return [...defaultUsers];
-        }
-      }
-      return [...defaultUsers];
-    }
-
-    function saveAllUsers(users) {
-      localStorage.setItem('focusforge-all-users', JSON.stringify(users));
-    }
-
-    // Initialize with default users if none exist
-    if (!localStorage.getItem('focusforge-all-users')) {
-      saveAllUsers([
-        { name: 'Admin', email: 'admin@focusforge.com', password: 'admin123', role: 'admin' },
-        { name: 'Atiksh Mishra', email: 'atiksh@focusforge.com', password: 'Atiksh2026', role: 'student' },
-        { name: 'Parth Singh', email: 'parth@focusforge.com', password: 'ParthSingh2026', role: 'student' }
-      ]);
-    }
-
-    const defaultSubjects = {
-      mathematics: { name: 'Mathematics', color: '#a855f7', icon: '📐', chapters: [
-        { id: 'math-1', name: 'Quadratic Equations', priority: 'high' },
-        { id: 'math-2', name: 'Arithmetic Progressions', priority: 'high' },
-        { id: 'math-3', name: 'Trigonometry', priority: 'high' }
-      ]},
-      physics: { name: 'Physics', color: '#22d3ee', icon: '🔬', chapters: [
-        { id: 'phy-1', name: 'Electrostatics', priority: 'high' },
-        { id: 'phy-2', name: 'Current Electricity', priority: 'high' }
-      ]},
-      chemistry: { name: 'Chemistry', color: '#10b981', icon: '🧪', chapters: [
-        { id: 'chem-1', name: 'Periodic Table', priority: 'high' },
-        { id: 'chem-2', name: 'Chemical Bonding', priority: 'high' }
-      ]},
-      english: { name: 'English', color: '#6366f1', icon: '📖', chapters: [
-        { id: 'eng-1', name: 'Grammar - Tenses', priority: 'high' },
-        { id: 'eng-2', name: 'Active & Passive Voice', priority: 'high' }
-      ]},
-      biology: { name: 'Biology', color: '#22c55e', icon: '🌿', chapters: [
-        { id: 'bio-1', name: 'Cell Division & Genetics', priority: 'high' },
-        { id: 'bio-2', name: 'Photosynthesis', priority: 'high' }
-      ]}
-    };
-
-    const achievementsData = [
-      { id: 'first-session', name: 'First Blood', icon: '🎯' },
-      { id: 'streak-3', name: 'On Fire', icon: '🔥' },
-      { id: 'streak-7', name: 'Week Warrior', icon: '💪' },
-      { id: 'sessions-10', name: 'Marathon', icon: '🏃' },
-      { id: 'hours-10', name: 'Time Keeper', icon: '⏰' },
-      { id: 'perfect-day', name: 'Perfect Day', icon: '⭐' }
-    ];
-
-    const levelsData = [
-      { level: 1, name: 'CADET', xpRequired: 0 },
-      { level: 2, name: 'ENSIGN', xpRequired: 100 },
-      { level: 3, name: 'LIEUTENANT', xpRequired: 300 },
-      { level: 4, name: 'CAPTAIN', xpRequired: 600 },
-      { level: 5, name: 'MAJOR', xpRequired: 1000 }
-    ];
-
-    const colors = ['#6366f1', '#ec4899', '#22d3ee', '#10b981', '#f59e0b', '#a855f7', '#ef4444', '#06b6d4'];
-    const icons = ['📚', '📐', '🧪', '🔬', '🌍', '📖', '💻', '🎯'];
-
-    let state = {
-      user: { name: 'Student', level: 1, xp: 0, streak: { count: 0, lastDate: null } },
-      subjects: {},
-      sessions: [],
-      achievements: {},
-      stats: { totalStudyTime: 0, sessionsCompleted: 0, longestStreak: 0 }
-    };
-
-    let currentUser = null;
-    let selectedColor = '#6366f1', selectedIcon = '📚', selectedPriority = 'high';
-    let newUserRole = 'student', editUserRole = 'student';
-    let testMarks = 50;
-
-    function init() {
-      createParticles();
-      loadState();
-      showLogin();
-      setupEventListeners();
-    }
-
-    function createParticles() {
-      const container = document.getElementById('bgAnimation');
-      for (let i = 0; i < 30; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDuration = (15 + Math.random() * 15) + 's';
-        particle.style.animationDelay = Math.random() * 20 + 's';
-        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-        container.appendChild(particle);
-      }
-    }
-
-    function setupEventListeners() {
-      document.querySelectorAll('#colorPicker .color-option').forEach(opt => opt.addEventListener('click', () => {
-        selectedColor = opt.dataset.color;
-        document.querySelectorAll('#colorPicker .color-option').forEach(o => o.classList.remove('selected'));
-        opt.classList.add('selected');
-      }));
-
-      document.querySelectorAll('#iconPicker .icon-option').forEach(opt => opt.addEventListener('click', () => {
-        selectedIcon = opt.dataset.icon;
-        document.querySelectorAll('#iconPicker .icon-option').forEach(o => o.classList.remove('selected'));
-        opt.classList.add('selected');
-      }));
-
-      document.querySelectorAll('.modal-overlay').forEach(overlay => overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); }));
-    }
-
-    function loadState() {
-      const saved = localStorage.getItem('focusforge-state');
-      if (saved) { try { state = JSON.parse(saved); } catch (e) { console.error('Failed to load state:', e); } }
-      if (Object.keys(state.subjects).length === 0) { state.subjects = JSON.parse(JSON.stringify(defaultSubjects)); }
-      if (Object.keys(state.achievements).length === 0) { achievementsData.forEach(a => state.achievements[a.id] = false); }
-      checkStreak();
-      saveState();
-    }
-
-    function saveState() { localStorage.setItem('focusforge-state', JSON.stringify(state)); }
-    function checkStreak() {
-      const today = new Date().toDateString();
-      const lastDate = state.user.streak.lastDate ? new Date(state.user.streak.lastDate).toDateString() : null;
-      if (lastDate && lastDate !== today) {
-        const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
-        if (lastDate !== yesterday.toDateString()) { state.user.streak.count = 0; }
-      }
-    }
-
-    // Auth Functions
-    function showLogin() {
-      document.getElementById('loginModal').classList.add('active');
-      document.getElementById('mainApp').style.display = 'none';
-      document.getElementById('fab').style.display = 'none';
-      document.getElementById('codeStep').style.display = 'block';
-      document.getElementById('userStep').style.display = 'none';
-      generateNewCode();
-    }
-
-    function generateNewCode() {
-      const code = Math.floor(100000 + Math.random() * 900000).toString();
-      document.getElementById('displayCode').textContent = code;
-      localStorage.setItem('tempCode', code);
-      localStorage.setItem('codeExpiry', Date.now() + 300000);
-    }
-
-    function verifyCode() {
-      const enteredCode = document.getElementById('verificationCode').value.trim();
-      const storedCode = localStorage.getItem('tempCode');
-      const expiry = parseInt(localStorage.getItem('codeExpiry'));
-      
-      if (!enteredCode) { showError('codeError', 'Please enter the 6-digit code'); return; }
-      if (Date.now() > expiry) { showError('codeError', 'Code expired! Click "Get New Code"'); return; }
-      if (enteredCode !== storedCode) { showError('codeError', 'Invalid code! Please try again'); return; }
-      
-      document.getElementById('codeStep').style.display = 'none';
-      document.getElementById('userStep').style.display = 'block';
-      document.getElementById('codeError').style.display = 'none';
-      
-      // Populate user dropdown with all users
-      const allUsers = loadAllUsers();
-      const userSelect = document.getElementById('userSelect');
-      userSelect.innerHTML = '<option value="">-- Select Your Name --</option>';
-      allUsers.forEach(user => {
-        userSelect.innerHTML += `<option value="${user.email}">${user.name}${user.role === 'admin' ? ' 👑' : ''}</option>`;
-      });
-      
-      document.getElementById('loginError').style.display = 'none';
-    }
-
-    function backToCode() {
-      document.getElementById('codeStep').style.display = 'block';
-      document.getElementById('userStep').style.display = 'none';
-      document.getElementById('verificationCode').value = '';
-    }
-
-    function handleLogin() {
-      const email = document.getElementById('userSelect').value;
-      const password = document.getElementById('loginPassword').value;
-      
-      if (!email || !password) {
-        showError('loginError', 'Please select your name and enter password');
-        return;
-      }
-
-      const allUsers = loadAllUsers();
-      const user = allUsers.find(u => u.email === email);
-      
-      if (!user) { showError('loginError', 'User not found. Contact admin.'); return; }
-      if (user.password !== password) { showError('loginError', 'Incorrect password!'); return; }
-      
-      currentUser = user;
-      localStorage.setItem('focusforge-user', JSON.stringify({ id: user.email, email: user.email, name: user.name, role: user.role }));
-      showMainApp();
-    }
-
-    function handleLogout() {
-      currentUser = null;
-      localStorage.removeItem('focusforge-user');
-      showLogin();
-    }
-
-    function showError(elementId, message) {
-      const el = document.getElementById(elementId);
-      el.textContent = message;
-      el.style.display = 'block';
-      setTimeout(() => el.style.display = 'none', 5000);
-    }
-
-    function showMainApp() {
-      const user = JSON.parse(localStorage.getItem('focusforge-user') || '{}');
-      document.getElementById('userName').textContent = user.name || 'Student';
-      document.getElementById('loginModal').classList.remove('active');
-      document.getElementById('mainApp').style.display = 'block';
-      document.getElementById('fab').style.display = 'flex';
-      
-      if (user.role === 'admin') {
-        document.getElementById('adminBtn').style.display = 'block';
-      } else {
-        document.getElementById('adminBtn').style.display = 'none';
-      }
-      
-      renderSubjects();
-      renderAchievements();
-      updateUI();
-      updateHeatmap();
-      populateSubjectSelect();
-    }
-
-    // Admin Functions
-    function openAdminModal() {
-      renderAdminUserList();
-      updateAdminStats();
-      document.getElementById('adminModal').classList.add('active');
-      switchAdminTab('users');
-    }
-
-    function closeAdminModal() {
-      document.getElementById('adminModal').classList.remove('active');
-    }
-
-    function switchAdminTab(tab) {
-      document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-      event.target.classList.add('active');
-      document.getElementById('adminUsersTab').style.display = tab === 'users' ? 'block' : 'none';
-      document.getElementById('adminStatsTab').style.display = tab === 'stats' ? 'block' : 'none';
-      document.getElementById('adminSettingsTab').style.display = tab === 'settings' ? 'block' : 'none';
-    }
-
-    function updateAdminStats() {
-      const allUsers = loadAllUsers();
-      document.getElementById('adminTotalUsers').textContent = allUsers.length;
-      document.getElementById('adminTotalXP').textContent = state.user.xp;
-      document.getElementById('adminTotalSessions').textContent = state.stats.sessionsCompleted;
-    }
-
-    function renderAdminUserList() {
-      const allUsers = loadAllUsers();
-      const container = document.getElementById('adminUserList');
-      
-      container.innerHTML = allUsers.map((user, index) => `
-        <div class="user-card">
-          <div class="user-info">
-            <div class="user-avatar">${user.name.charAt(0).toUpperCase()}</div>
-            <div class="user-details">
-              <h4>
-                ${user.name}
-                <span class="user-role ${user.role}">${user.role}</span>
-              </h4>
-              <p>${user.email}</p>
-            </div>
-          </div>
-          <div class="user-controls">
-            <button class="btn btn-secondary btn-small" onclick="openEditUserModal(${index})">✏️ Edit</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function openAddUserModal() {
-      document.getElementById('newUserName').value = '';
-      document.getElementById('newUserEmail').value = '';
-      document.getElementById('newUserPassword').value = '';
-      newUserRole = 'student';
-      document.getElementById('roleStudent').className = 'btn btn-primary';
-      document.getElementById('roleAdmin').className = 'btn btn-secondary';
-      document.getElementById('addUserModal').classList.add('active');
-    }
-
-    function closeAddUserModal() {
-      document.getElementById('addUserModal').classList.remove('active');
-    }
-
-    function setNewUserRole(role) {
-      newUserRole = role;
-      document.getElementById('roleStudent').className = role === 'student' ? 'btn btn-primary' : 'btn btn-secondary';
-      document.getElementById('roleAdmin').className = role === 'admin' ? 'btn btn-primary' : 'btn btn-secondary';
-    }
-
-    function saveNewUser() {
-      const name = document.getElementById('newUserName').value.trim();
-      const email = document.getElementById('newUserEmail').value.trim();
-      const password = document.getElementById('newUserPassword').value;
-      
-      if (!name || !email || !password) {
-        alert('Please fill in all fields!');
-        return;
-      }
-      
-      if (password.length < 4) {
-        alert('Password must be at least 4 characters!');
-        return;
-      }
-
-      const allUsers = loadAllUsers();
-      
-      // Check if email already exists
-      if (allUsers.find(u => u.email === email)) {
-        alert('User with this email already exists!');
-        return;
-      }
-
-      allUsers.push({ name, email, password, role: newUserRole });
-      saveAllUsers(allUsers);
-      
-      closeAddUserModal();
-      renderAdminUserList();
-      updateAdminStats();
-      alert(`✅ User "${name}" created successfully!`);
-    }
-
-    function openEditUserModal(index) {
-      const allUsers = loadAllUsers();
-      const user = allUsers[index];
-      
-      document.getElementById('editUserIndex').value = index;
-      document.getElementById('editUserName').value = user.name;
-      document.getElementById('editUserEmail').value = user.email;
-      document.getElementById('editUserPassword').value = '';
-      
-      editUserRole = user.role;
-      document.getElementById('editRoleStudent').className = user.role === 'student' ? 'btn btn-primary' : 'btn btn-secondary';
-      document.getElementById('editRoleAdmin').className = user.role === 'admin' ? 'btn btn-primary' : 'btn btn-secondary';
-      
-      document.getElementById('editUserModal').classList.add('active');
-    }
-
-    function closeEditUserModal() {
-      document.getElementById('editUserModal').classList.remove('active');
-    }
-
-    function setEditUserRole(role) {
-      editUserRole = role;
-      document.getElementById('editRoleStudent').className = role === 'student' ? 'btn btn-primary' : 'btn btn-secondary';
-      document.getElementById('editRoleAdmin').className = role === 'admin' ? 'btn btn-primary' : 'btn btn-secondary';
-    }
-
-    function updateUser() {
-      const index = parseInt(document.getElementById('editUserIndex').value);
-      const name = document.getElementById('editUserName').value.trim();
-      const newPassword = document.getElementById('editUserPassword').value;
-      
-      if (!name) {
-        alert('Please enter a name!');
-        return;
-      }
-
-      const allUsers = loadAllUsers();
-      allUsers[index].name = name;
-      allUsers[index].role = editUserRole;
-      
-      if (newPassword && newPassword.length >= 4) {
-        allUsers[index].password = newPassword;
-      }
-      
-      saveAllUsers(allUsers);
-      closeEditUserModal();
-      renderAdminUserList();
-      
-      // If admin edited themselves, update current user
-      if (currentUser && currentUser.email === allUsers[index].email) {
-        currentUser = allUsers[index];
-        localStorage.setItem('focusforge-user', JSON.stringify({ id: currentUser.email, email: currentUser.email, name: currentUser.name, role: currentUser.role }));
-        document.getElementById('userName').textContent = currentUser.name;
-      }
-      
-      alert('✅ User updated successfully!');
-    }
-
-    function deleteUser() {
-      const index = parseInt(document.getElementById('editUserIndex').value);
-      const allUsers = loadAllUsers();
-      const user = allUsers[index];
-      
-      // Don't allow deleting the admin account
-      if (user.email === 'admin@focusforge.com') {
-        alert('❌ Cannot delete the Admin account!');
-        return;
-      }
-      
-      if (!confirm(`Are you sure you want to delete "${user.name}"? This cannot be undone!`)) {
-        return;
-      }
-      
-      allUsers.splice(index, 1);
-      saveAllUsers(allUsers);
-      
-      closeEditUserModal();
-      renderAdminUserList();
-      updateAdminStats();
-      alert(`🗑️ User "${user.name}" deleted!`);
-    }
-
-    function exportUsersCSV() {
-      const allUsers = loadAllUsers();
-      let csv = 'Name,Email,Password,Role\n';
-      allUsers.forEach(u => {
-        csv += `${u.name},${u.email},${u.password},${u.role}\n`;
-      });
-      
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'focusforge-users.csv';
-      a.click();
-      URL.revokeObjectURL(url);
-      alert('📋 Users exported to CSV!');
-    }
-
-    function exportUserData() {
-      const data = {
-        exportDate: new Date().toISOString(),
-        users: loadAllUsers(),
-        state: state
-      };
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `focusforge-export-${new Date().toISOString().split('T')[0]}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-      alert('📥 Data exported successfully!');
-    }
-
-    function adminResetAll() {
-      if (!confirm('💥 RESET ALL DATA?\n\nThis will delete:\n- All users (except admin)\n- All study progress\n- All settings\n\nThis cannot be undone!')) {
-        return;
-      }
-      
-      localStorage.removeItem('focusforge-state');
-      localStorage.removeItem('focusforge-all-users');
-      localStorage.removeItem('focusforge-user');
-      location.reload();
-    }
-
-    // Continue with rest of app...
-    function renderSubjects() {
-      const grid = document.getElementById('subjectsGrid');
-      const subjectsKeys = Object.keys(state.subjects);
-      if (subjectsKeys.length === 0) {
-        grid.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><div class="empty-state-title">No Subjects Yet</div><div>Tap the + button to add your first subject!</div></div>';
-        return;
-      }
-      grid.innerHTML = subjectsKeys.map(key => {
-        const subject = state.subjects[key];
-        const completed = subject.chapters.filter(ch => ch.completed).length;
-        const total = subject.chapters.length;
-        const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
-        return `<div class="subject-card" style="--subject-color: ${subject.color};" onclick="selectSubject('${key}', event)">
-          <div class="subject-icon">${subject.icon}</div>
-          <div class="subject-name">${subject.name}</div>
-          <div class="subject-progress"><div class="subject-progress-fill" style="width: ${percent}%"></div></div>
-          <div class="subject-stats"><span>${completed}/${total} chapters</span><span>${percent}%</span></div>
-        </div>`;
-      }).join('');
-    }
-
-    function selectSubject(subjectId, event) {
-      document.querySelectorAll('.subject-card').forEach(card => card.classList.remove('active'));
-      event.currentTarget.classList.add('active');
-      state.currentSession = { subject: subjectId, duration: 25, type: 'study' };
-      const subject = state.subjects[subjectId];
-      document.getElementById('chapterSubjectName').textContent = subject.name;
-      document.getElementById('mainTimerSubject').textContent = subject.name;
-      document.getElementById('focusTimerSubject').textContent = subject.name;
-      document.getElementById('subjectSelect').value = subjectId;
-      renderChapters(subjectId);
-    }
-
-    function renderChapters(subjectId) {
-      const panel = document.getElementById('chaptersPanel');
-      const subject = state.subjects[subjectId];
-      if (!subject) { panel.innerHTML = '<div class="empty-state"><p>Subject not found</p></div>'; return; }
-      panel.innerHTML = `<div class="chapters-list">${subject.chapters.map((chapter, index) => `
-        <div class="chapter-item">
-          <div class="chapter-checkbox ${chapter.completed ? 'checked' : ''}" onclick="toggleChapter('${subjectId}', ${index})"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
-          <div class="chapter-info">
-            <div class="chapter-name ${chapter.completed ? 'completed' : ''}">${chapter.name}</div>
-            <div class="chapter-meta">${chapter.priority === 'high' ? '<span style="color: var(--danger);">● HIGH</span>' : ''}${chapter.priority === 'medium' ? '<span style="color: var(--warning);">● MEDIUM</span>' : ''}</div>
-          </div>
-          <div class="chapter-rating" onclick="event.stopPropagation()">${[1,2,3,4,5].map(n => `<svg class="star ${chapter.rating >= n ? 'filled' : ''}" viewBox="0 0 24 24" onclick="rateChapter('${subjectId}', ${index}, ${n})"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>`).join('')}</div>
-        </div>`).join('')}
-        <button class="add-chapter-btn" onclick="openChapterModal('${subjectId}')"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Add Chapter</button></div>`;
-    }
-
-    function toggleChapter(subjectId, chapterIndex) {
-      const chapter = state.subjects[subjectId].chapters[chapterIndex];
-      chapter.completed = !chapter.completed;
-      if (chapter.completed && chapter.rating === 0) chapter.rating = 3;
-      saveState();
-      renderSubjects();
-      renderChapters(subjectId);
-      updateUI();
-      checkAchievements();
-      if (chapter.completed) { document.body.classList.add('shake'); setTimeout(() => document.body.classList.remove('shake'), 500); }
-    }
-
-    function rateChapter(subjectId, chapterIndex, rating) { state.subjects[subjectId].chapters[chapterIndex].rating = rating; saveState(); renderChapters(subjectId); }
-
-    function populateSubjectSelect() {
-      const select = document.getElementById('subjectSelect');
-      select.innerHTML = '<option value="">Choose your battlefield...</option>';
-      Object.keys(state.subjects).forEach(key => {
-        const option = document.createElement('option');
-        option.value = key;
-        option.textContent = state.subjects[key].name;
-        select.appendChild(option);
-      });
-      select.addEventListener('change', (e) => {
-        if (e.target.value) {
-          state.currentSession = state.currentSession || {};
-          state.currentSession.subject = e.target.value;
-          const subject = state.subjects[e.target.value];
-          document.getElementById('chapterSubjectName').textContent = subject.name;
-          document.getElementById('mainTimerSubject').textContent = subject.name;
-          document.getElementById('focusTimerSubject').textContent = subject.name;
-          renderChapters(e.target.value);
-        }
-      });
-
-      const testSelect = document.getElementById('testSubject');
-      testSelect.innerHTML = '<option value="">Select Subject</option>';
-      Object.keys(state.subjects).forEach(key => {
-        const option = document.createElement('option');
-        option.value = key;
-        option.textContent = state.subjects[key].name;
-        testSelect.appendChild(option);
-      });
-    }
-
-    function setDuration(minutes) {
-      if (!state.currentSession) state.currentSession = {};
-      state.currentSession.duration = minutes;
-      document.querySelectorAll('.duration-options .duration-btn').forEach(btn => btn.classList.toggle('active', parseInt(btn.dataset.duration) === minutes));
-    }
-
-    function setSessionType(type) {
-      if (!state.currentSession) state.currentSession = {};
-      state.currentSession.type = type;
-      document.querySelectorAll('.type-options .type-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.type === type));
-    }
-
-    let timerInterval, timerInterval2;
-
-    function startSession() {
-      if (!state.currentSession || !state.currentSession.subject) { alert('Please select a subject first!'); return; }
-      state.currentSession.active = true;
-      state.currentSession.paused = false;
-      state.currentSession.remaining = state.currentSession.duration * 60;
-      state.currentSession.startTime = new Date();
-      document.getElementById('startBtn').style.display = 'none';
-      document.getElementById('pauseBtn').style.display = 'flex';
-      document.getElementById('mainTimerStatus').textContent = 'FOCUSING';
-      updateTimer();
-      startFocusMode();
-    }
-
-    function updateTimer() {
-      clearInterval(timerInterval);
-      timerInterval = setInterval(() => {
-        if (!state.currentSession.paused && state.currentSession.active) {
-          state.currentSession.remaining--;
-          const mins = Math.floor(state.currentSession.remaining / 60);
-          const secs = state.currentSession.remaining % 60;
-          const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-          document.getElementById('mainTimerTime').textContent = timeStr;
-          document.getElementById('focusTimerTime').textContent = timeStr;
-          const total = state.currentSession.duration * 60;
-          const progress = 1 - (state.currentSession.remaining / total);
-          const offset = 565 - (progress * 565);
-          document.getElementById('mainTimerProgress').style.strokeDashoffset = offset;
-          document.getElementById('focusTimerProgress').style.strokeDashoffset = offset;
-          if (state.currentSession.remaining <= 0) completeSession();
-        }
-      }, 1000);
-    }
-
-    function togglePause() {
-      if (!state.currentSession) return;
-      state.currentSession.paused = !state.currentSession.paused;
-      const pauseBtn = document.querySelector('#pauseBtn');
-      if (state.currentSession.paused) {
-        pauseBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Resume`;
-        document.getElementById('mainTimerStatus').textContent = 'PAUSED';
-        document.getElementById('mainTimerProgress').classList.add('paused');
-        document.getElementById('focusTimerProgress').classList.add('paused');
-      } else {
-        pauseBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg> Pause`;
-        document.getElementById('mainTimerStatus').textContent = 'FOCUSING';
-        document.getElementById('mainTimerProgress').classList.remove('paused');
-        document.getElementById('focusTimerProgress').classList.remove('paused');
-      }
-    }
-
-    function completeSession() {
-      clearInterval(timerInterval);
-      const duration = state.currentSession.duration;
-      const type = state.currentSession.type;
-      let baseXP = 50;
-      if (type === 'revision') baseXP = 40;
-      if (type === 'mock') baseXP = 75;
-      const streakMultiplier = getStreakMultiplier();
-      const earnedXP = Math.round(baseXP * streakMultiplier);
-      state.user.xp += earnedXP;
-      state.stats.totalStudyTime += duration;
-      state.stats.sessionsCompleted++;
-      const today = new Date().toDateString();
-      if (state.user.streak.lastDate !== today) { state.user.streak.count++; state.user.streak.lastDate = today; }
-      if (state.user.streak.count > state.stats.longestStreak) { state.stats.longestStreak = state.user.streak.count; }
-      state.sessions.push({ date: new Date().toISOString(), subject: state.currentSession.subject, duration, type, xp: earnedXP });
-      updateLevel();
-      saveState();
-      showXPAnimation(earnedXP);
-      showConfetti();
-      checkAchievements();
-      resetSessionUI();
-      showBreak();
-    }
-
-    function endSession() { clearInterval(timerInterval); resetSessionUI(); hideFocusMode(); }
-
-    function resetSessionUI() {
-      if (!state.currentSession) state.currentSession = {};
-      state.currentSession.active = false;
-      state.currentSession.paused = false;
-      state.currentSession.remaining = state.currentSession.duration * 60;
-      document.getElementById('startBtn').style.display = 'flex';
-      document.getElementById('pauseBtn').style.display = 'none';
-      document.getElementById('mainTimerTime').textContent = '00:00';
-      document.getElementById('mainTimerStatus').textContent = 'READY';
-      document.getElementById('mainTimerSubject').textContent = 'No active session';
-      document.getElementById('mainTimerProgress').style.strokeDashoffset = 565;
-      document.getElementById('mainTimerProgress').classList.remove('paused');
-      updateUI();
-    }
-
-    function showBreak() {
-      const breakOverlay = document.getElementById('breakOverlay');
-      breakOverlay.classList.add('active');
-      let remaining = state.currentSession.duration >= 45 ? 10 * 60 : 5 * 60;
-      clearInterval(timerInterval2);
-      timerInterval2 = setInterval(() => {
-        remaining--;
-        document.getElementById('breakTimer').textContent = `${Math.floor(remaining / 60).toString().padStart(2, '0')}:${(remaining % 60).toString().padStart(2, '0')}`;
-        if (remaining <= 0) { clearInterval(timerInterval2); hideBreak(); }
-      }, 1000);
-    }
-
-    function skipBreak() { clearInterval(timerInterval2); hideBreak(); }
-    function hideBreak() { document.getElementById('breakOverlay').classList.remove('active'); }
-
-    function getStreakMultiplier() { const streak = state.user.streak.count; if (streak >= 7) return 1.5; if (streak >= 3) return 1.25; return 1; }
-    function updateLevel() { for (let i = levelsData.length - 1; i >= 0; i--) { if (state.user.xp >= levelsData[i].xpRequired) { state.user.level = levelsData[i].level; break; } } }
-
-    function showXPAnimation(amount) {
-      const xp = document.createElement('div');
-      xp.className = 'xp-fly';
-      xp.textContent = `+${amount} XP`;
-      xp.style.left = '50%'; xp.style.top = '50%'; xp.style.transform = 'translate(-50%, -50%)';
-      document.body.appendChild(xp);
-      setTimeout(() => xp.remove(), 1500);
-    }
-
-    function showConfetti() {
-      const container = document.createElement('div');
-      container.className = 'confetti';
-      document.body.appendChild(container);
-      const confettiColors = ['#6366f1', '#ec4899', '#22d3ee', '#10b981', '#f59e0b', '#a855f7'];
-      for (let i = 0; i < 60; i++) {
-        const piece = document.createElement('div');
-        piece.className = 'confetti-piece';
-        piece.style.left = Math.random() * 100 + 'vw';
-        piece.style.background = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-        piece.style.animationDelay = Math.random() * 0.5 + 's';
-        piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-        container.appendChild(piece);
-      }
-      setTimeout(() => container.remove(), 3000);
-    }
-
-    function startFocusMode() {
-      if (state.currentSession && state.currentSession.active) {
-        document.getElementById('focusOverlay').classList.add('active');
-        document.getElementById('focusStreakCount').textContent = state.user.streak.count;
-        document.body.style.overflow = 'hidden';
-      }
-    }
-
-    function hideFocusMode() { document.getElementById('focusOverlay').classList.remove('active'); document.body.style.overflow = ''; }
-
-    function checkAchievements() {
-      if (state.stats.sessionsCompleted >= 1 && !state.achievements['first-session']) { state.achievements['first-session'] = true; }
-      if (state.user.streak.count >= 3 && !state.achievements['streak-3']) { state.achievements['streak-3'] = true; }
-      if (state.user.streak.count >= 7 && !state.achievements['streak-7']) { state.achievements['streak-7'] = true; }
-      if (state.stats.sessionsCompleted >= 10 && !state.achievements['sessions-10']) { state.achievements['sessions-10'] = true; }
-      if (state.stats.totalStudyTime >= 600 && !state.achievements['hours-10']) { state.achievements['hours-10'] = true; }
-      const today = new Date().toDateString();
-      const todaySessions = state.sessions.filter(s => new Date(s.date).toDateString() === today).length;
-      if (todaySessions >= 5 && !state.achievements['perfect-day']) { state.achievements['perfect-day'] = true; }
-      saveState();
-      renderAchievements();
-    }
-
-    function renderAchievements() { const grid = document.getElementById('achievementsGrid'); grid.innerHTML = achievementsData.map(a => `<div class="badge ${state.achievements[a.id] ? 'unlocked' : ''}"><div class="badge-icon">${a.icon}</div><div class="badge-name">${a.name}</div></div>`).join(''); }
-
-    function updateUI() {
-      document.getElementById('headerStreak').textContent = state.user.streak.count;
-      document.getElementById('headerXP').textContent = state.user.xp + ' XP';
-      document.getElementById('headerLevel').textContent = levelsData[state.user.level - 1].name;
-      document.getElementById('mainStreakCount').textContent = state.user.streak.count;
-      const multiplier = getStreakMultiplier();
-      const multiplierEl = document.getElementById('streakMultiplier');
-      if (multiplier > 1) { multiplierEl.style.display = 'inline-block'; multiplierEl.textContent = multiplier + 'x BONUS'; } else { multiplierEl.style.display = 'none'; }
-      let totalChapters = 0, completedChapters = 0;
-      Object.values(state.subjects).forEach(subject => { subject.chapters.forEach(chapter => { totalChapters++; if (chapter.completed) completedChapters++; }); });
-      const overallPercent = totalChapters > 0 ? Math.round((completedChapters / totalChapters) * 100) : 0;
-      document.getElementById('overallPercent').textContent = overallPercent + '%';
-      document.getElementById('overallProgress').style.strokeDashoffset = 408 - (overallPercent / 100 * 408);
-      const currentLevelData = levelsData[state.user.level - 1];
-      const nextLevelData = levelsData[state.user.level] || levelsData[levelsData.length - 1];
-      document.getElementById('currentLevel').textContent = `Level ${currentLevelData.level}: ${currentLevelData.name}`;
-      document.getElementById('nextLevel').textContent = state.user.level < levelsData.length ? `Next: ${nextLevelData.name} (${nextLevelData.xpRequired} XP)` : 'MAX LEVEL';
-      const levelProgress = state.user.level < levelsData.length ? ((state.user.xp - currentLevelData.xpRequired) / (nextLevelData.xpRequired - currentLevelData.xpRequired)) * 100 : 100;
-      document.getElementById('levelProgress').style.width = Math.min(100, Math.max(0, levelProgress)) + '%';
-      const hours = Math.floor((state.stats.totalStudyTime || 0) / 60);
-      document.getElementById('totalTime').textContent = hours + 'h';
-      document.getElementById('totalSessions').textContent = state.stats.sessionsCompleted || 0;
-      document.getElementById('longestStreak').textContent = state.stats.longestStreak || 0;
-    }
-
-    function updateHeatmap() {
-      const grid = document.getElementById('heatmapGrid');
-      grid.innerHTML = '';
-      const today = new Date();
-      for (let i = 27; i >= 0; i--) {
-        const date = new Date(today);
-        date.setDate(date.getDate() - i);
-        const dayStr = date.toDateString();
-        const sessionsOnDay = (state.sessions || []).filter(s => new Date(s.date).toDateString() === dayStr).length;
-        let level = 0;
-        if (sessionsOnDay >= 1) level = 1;
-        if (sessionsOnDay >= 2) level = 2;
-        if (sessionsOnDay >= 3) level = 3;
-        if (sessionsOnDay >= 5) level = 4;
-        const cell = document.createElement('div');
-        cell.className = `heatmap-day level-${level}`;
-        cell.title = `${date.toLocaleDateString()}: ${sessionsOnDay} sessions`;
-        grid.appendChild(cell);
-      }
-    }
-
-    function openSubjectModal() {
-      document.getElementById('subjectName').value = '';
-      selectedColor = '#6366f1';
-      selectedIcon = '📚';
-      document.querySelectorAll('#colorPicker .color-option').forEach(opt => opt.classList.remove('selected'));
-      document.querySelector('#colorPicker .color-option[data-color="#6366f1"]').classList.add('selected');
-      document.querySelectorAll('#iconPicker .icon-option').forEach(opt => opt.classList.remove('selected'));
-      document.querySelector('#iconPicker .icon-option[data-icon="📚"]').classList.add('selected');
-      document.getElementById('subjectModal').classList.add('active');
-    }
-
-    function closeSubjectModal() { document.getElementById('subjectModal').classList.remove('active'); }
-
-    function saveSubject() {
-      const name = document.getElementById('subjectName').value.trim();
-      if (!name) { alert('Please enter a subject name!'); return; }
-      const id = 'custom-' + Date.now();
-      state.subjects[id] = { name, color: selectedColor, icon: selectedIcon, chapters: [] };
-      saveState();
-      closeSubjectModal();
-      renderSubjects();
-      populateSubjectSelect();
-      updateUI();
-    }
-
-    function openChapterModal(subjectId) {
-      document.getElementById('chapterSubjectId').value = subjectId;
-      document.getElementById('chapterName').value = '';
-      selectedPriority = 'high';
-      document.querySelectorAll('.priority-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.priority === 'high'));
-      document.getElementById('chapterModal').classList.add('active');
-    }
-
-    function closeChapterModal() { document.getElementById('chapterModal').classList.remove('active'); }
-    function selectPriority(priority) { selectedPriority = priority; document.querySelectorAll('.priority-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.priority === priority)); }
-
-    function saveChapter() {
-      const subjectId = document.getElementById('chapterSubjectId').value;
-      const name = document.getElementById('chapterName').value.trim();
-      if (!name) { alert('Please enter a chapter name!'); return; }
-      state.subjects[subjectId].chapters.push({ id: 'ch-' + Date.now(), name, completed: false, rating: 0, priority: selectedPriority });
-      saveState();
-      closeChapterModal();
-      renderSubjects();
-      renderChapters(subjectId);
-      updateUI();
-    }
-
-    function switchTab(tab) {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      event.target.classList.add('active');
-      if (tab === 'chat') { document.getElementById('chatTab').style.display = 'flex'; document.getElementById('testTab').style.display = 'none'; }
-      else { document.getElementById('chatTab').style.display = 'none'; document.getElementById('testTab').style.display = 'block'; }
-    }
-
-    function quickAction(action) {
-      const inputs = { test: 'I want to generate a test paper', explain: 'Explain the concept of Trigonometry', summarize: 'Give me quick revision notes', practice: 'Give me 5 practice questions' };
-      document.getElementById('chatInput').value = inputs[action];
-      document.getElementById('chatInput').focus();
-    }
-
-    function handleChatKeypress(event) { if (event.key === 'Enter') sendChatMessage(); }
-
-    function sendChatMessage() {
-      const input = document.getElementById('chatInput');
-      const message = input.value.trim();
-      if (!message) return;
-      const chatMessages = document.getElementById('chatMessages');
-      chatMessages.innerHTML += `<div class="chat-message user">${message}</div>`;
-      input.value = '';
-      chatMessages.innerHTML += `<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      setTimeout(() => {
-        document.querySelector('.typing-indicator')?.remove();
-        const response = generateAIResponse(message);
-        chatMessages.innerHTML += `<div class="chat-message bot">${response}</div>`;
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      }, 1500);
-    }
-
-    function generateAIResponse(message) {
-      const msg = message.toLowerCase();
-      if (msg.includes('test') || msg.includes('paper')) {
-        return `📝 <strong>Test Paper Generator</strong>\n\nUse the <strong>📝 Test Builder</strong> tab above! Select a subject, choose marks (20/50/100), and generate a custom test paper with marking scheme.`;
-      }
-      if (msg.includes('quadratic')) {
-        return `📐 <strong>Quadratic Equations</strong>\n\n• Standard: ax² + bx + c = 0\n• Discriminant D = b² - 4ac\n• x = (-b ± √D) / 2a\n\n<em>Need a test? Use the Test Builder tab!</em>`;
-      }
-      if (msg.includes('trigonometry') || msg.includes('trig')) {
-        return `📐 <strong>Trigonometry</strong>\n\n• sin θ = Opposite/Hypotenuse\n• cos θ = Adjacent/Hypotenuse\n• tan θ = Opposite/Adjacent\n• sin²θ + cos²θ = 1`;
-      }
-      return `🎓 <strong>ICSE Boards Study Assistant</strong>\n\nI can help with:\n📝 Test Papers\n📖 Summaries\n💡 Explanations\n🎯 Practice Questions\n\nWhat would you like to learn?`;
-    }
-
-    function selectMarks(el) {
-      document.querySelectorAll('.test-step .test-option').forEach(opt => opt.classList.remove('selected'));
-      el.classList.add('selected');
-      testMarks = parseInt(el.dataset.marks);
-    }
-
-    function generateTestPaper() {
-      const subject = document.getElementById('testSubject').value;
-      const chapter = document.getElementById('testChapter').value.trim();
-      const subjectName = subject ? state.subjects[subject]?.name : 'General';
-      
-      let testContent = `<div class="test-paper-header">
-        <div class="test-paper-title">📝 ICSE CLASS 10 - ${subjectName.toUpperCase()}</div>
-        <div>Chapter: ${chapter || 'Custom Topic'}</div>
-        <div>Total Marks: ${testMarks}</div>
-      </div>`;
-      
-      testContent += `<div class="test-section"><div class="test-section-title">SECTION A - Short Answer (2 marks each)</div>`;
-      for (let i = 1; i <= Math.min(5, testMarks/5); i++) {
-        testContent += `<div class="test-question">${i}. [Question about ${chapter || 'topic'}]</div>`;
-      }
-      testContent += `</div>`;
-      
-      testContent += `<div class="test-section"><div class="test-section-title">SECTION B - Long Answer (5 marks each)</div>`;
-      for (let i = 1; i <= Math.min(3, testMarks/15); i++) {
-        testContent += `<div class="test-question">${i}. [Application question on ${chapter || 'main topic'}]<div class="test-marks">5 marks</div></div>`;
-      }
-      testContent += `</div>`;
-      
-      testContent += `<div class="test-section" style="background: rgba(16,185,129,0.1); padding: 16px; border-radius: 8px;">
-        <div class="test-section-title" style="color: var(--success);">📋 MARKING SCHEME</div>
-        <em>Total: ${testMarks} marks | Passing: 40%</em>
-      </div>`;
-      
-      document.getElementById('testPaperContent').innerHTML = testContent;
-      document.getElementById('testOutput').classList.add('active');
-    }
-
-    function copyTest() {
-      const text = document.getElementById('testPaperContent').innerText;
-      navigator.clipboard.writeText(text);
-      alert('Test copied to clipboard!');
-    }
-
-    function resetAll() { if (confirm('Reset ALL progress? This cannot be undone!')) { localStorage.removeItem('focusforge-state'); localStorage.removeItem('focusforge-user'); location.reload(); } }
-
-    init();
-  </script>
+  <!-- App Script -->
+  <script src="app.js"></script>
 </body>
 </html>
